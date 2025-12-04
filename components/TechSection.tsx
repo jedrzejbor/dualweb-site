@@ -322,10 +322,25 @@ function TechIcon({ imageSrc, imageAlt }: { imageSrc: string, imageAlt: string }
 }
 
 export function TechSection() {
+  const AUTO_PLAY_INTERVAL = 7000; // ms
+  const AUTO_PLAY_PAUSE_AFTER_INTERACTION = 10000;
+
   const [currentIndex, setCurrentIndex] = useState(2); // start mniej więcej w środku
   const containerRef = useRef<HTMLDivElement | null>(null);
   const trackRef = useRef<HTMLDivElement | null>(null);
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const [isAutoPlay, setIsAutoPlay] = useState(true);
+  const pauseTimeoutRef = useRef<number | null>(null);
+
+  const pauseAutoPlay = useCallback(() => {
+    setIsAutoPlay(false);
+    if (pauseTimeoutRef.current !== null) {
+      window.clearTimeout(pauseTimeoutRef.current);
+    }
+    pauseTimeoutRef.current = window.setTimeout(() => {
+      setIsAutoPlay(true);
+    }, AUTO_PLAY_PAUSE_AFTER_INTERACTION);
+  }, []);
 
   const recenter = useCallback(
     (index: number) => {
@@ -360,14 +375,37 @@ export function TechSection() {
     };
 
     window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      if (pauseTimeoutRef.current !== null) {
+        window.clearTimeout(pauseTimeoutRef.current);
+      }
+    };
   }, [currentIndex, recenter]);
 
-  const goTo = (index: number) => {
-    if (index < 0 || index >= techItems.length) return;
-    setCurrentIndex(index);
-    recenter(index);
-  };
+
+
+  const goTo = useCallback(
+    (index: number) => {
+      if (index < 0 || index >= techItems.length) return;
+      setCurrentIndex(index);
+      recenter(index);
+    },
+    [recenter]
+  );
+
+  useEffect(() => {
+    if (!isAutoPlay) return;
+
+    const id = window.setTimeout(() => {
+      const nextIndex =
+        currentIndex === techItems.length - 1 ? 0 : currentIndex + 1;
+      goTo(nextIndex);
+    }, AUTO_PLAY_INTERVAL);
+
+    return () => window.clearTimeout(id);
+  }, [isAutoPlay, currentIndex, goTo]);
+
 
   const goNext = () => goTo(currentIndex + 1);
   const goPrev = () => goTo(currentIndex - 1);
@@ -389,6 +427,7 @@ export function TechSection() {
   };
 
   const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    pauseAutoPlay();
     isDragging.current = true;
     startX.current = e.clientX;
     prevTranslate.current = getCurrentTransform();
@@ -454,7 +493,7 @@ export function TechSection() {
         <div className="space-y-3 text-left">
           <p className="kicker text-indigo-400">Stack technologiczny</p>
           <h2 className="heading-font text-2xl font-extrabold sm:text-3xl md:text-4xl">
-            Technologia, na której{" "}
+            Technologie, na których{" "}
             <span className="bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent font-black">
               budujemy
             </span>{" "}
@@ -521,7 +560,7 @@ export function TechSection() {
                     <div className="card-progress">
                       <div
                         className="progress-value"
-                        style={{ width: `${tech.progress}%` }}
+                        style={{ ["--progress" as string]: `${tech.progress}%` }}
                       />
                     </div>
                     <div className="card-stats">
@@ -550,7 +589,10 @@ export function TechSection() {
           <button
             type="button"
             className="tech-carousel-button prev"
-            onClick={goPrev}
+            onClick={() => {
+              pauseAutoPlay();
+              goPrev();
+            }}
             aria-label="Poprzednia technologia"
           >
             <svg
@@ -569,7 +611,10 @@ export function TechSection() {
           <button
             type="button"
             className="tech-carousel-button next"
-            onClick={goNext}
+            onClick={() => {
+              pauseAutoPlay();
+              goNext();
+            }}
             aria-label="Następna technologia"
           >
             <svg
@@ -593,7 +638,10 @@ export function TechSection() {
                 className={`tech-indicator ${
                   index === currentIndex ? "active" : ""
                 }`}
-                onClick={() => goTo(index)}
+                onClick={() => {
+                  pauseAutoPlay();
+                  goTo(index);
+                }}
               />
             ))}
           </div>
