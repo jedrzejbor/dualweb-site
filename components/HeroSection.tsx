@@ -72,11 +72,11 @@ export function HeroSection() {
               <div className="relative h-16 w-16 shrink-0 rounded-2xl bg-gradient-to-br from-indigo-500/40 to-cyan-400/40 p-[2px]">
                 <div className="flex h-full w-full items-center justify-center rounded-2xl bg-slate-950">
                   <Image
-                    src="/logoDW.png"
-                    alt="Dualweb – mózg i serce"
-                    width={56}
-                    height={56}
-                    className="h-14 w-14 object-contain"
+                    src="/logo.png"
+                    alt="Dualweb logo – mózg i serce"
+                    width={45}
+                    height={45}
+                    className="h-12 w-12 object-contain"
                   />
                 </div>
               </div>

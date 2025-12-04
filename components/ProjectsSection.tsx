@@ -553,7 +553,7 @@ function ProjectModal({
             </p>
             <a
               href="#contact"
-              className="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-indigo-500 to-cyan-500 px-4 py-1.5 text-xs font-semibold text-slate-950 shadow-md shadow-indigo-500/40 transition hover:brightness-110"
+              className="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-indigo-500 to-cyan-500 px-4 py-1.5 text-xs font-semibold text-slate-50 shadow-md shadow-indigo-500/40 transition hover:brightness-110"
             >
               Porozmawiajmy o Twoim projekcie
             </a>
