@@ -216,6 +216,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { FadeInSection } from "./FadeInSection";
+import Image from 'next/image';
 
 type TechItem = {
   name: string;
@@ -225,7 +226,8 @@ type TechItem = {
   progress: number; // 0–100
   tags: string[];
   accentClass: string; // kolor tytułu
-  short: string; // skrót na ikonie
+  imageSrc: string;
+  imageAlt: string;
 };
 
 const techItems: TechItem[] = [
@@ -238,7 +240,8 @@ const techItems: TechItem[] = [
     progress: 95,
     tags: ["SPA", "UI", "Hooks"],
     accentClass: "text-cyan-400",
-    short: "R",
+    imageSrc: "/tech-icons/react.svg",
+    imageAlt: "React icon",
   },
   {
     name: "Next.js",
@@ -249,7 +252,8 @@ const techItems: TechItem[] = [
     progress: 92,
     tags: ["SSR", "SSG", "RSC"],
     accentClass: "text-sky-400",
-    short: "NX",
+    imageSrc: "/tech-icons/next-icon.png",
+    imageAlt: "Next icon",
   },
   {
     name: "Node.js",
@@ -260,7 +264,8 @@ const techItems: TechItem[] = [
     progress: 90,
     tags: ["REST", "Integracje", "Worker"],
     accentClass: "text-emerald-400",
-    short: "ND",
+    imageSrc: "/tech-icons/Node-icon.svg",
+    imageAlt: "Node icon rest",
   },
   {
     name: "NestJS",
@@ -271,7 +276,8 @@ const techItems: TechItem[] = [
     progress: 88,
     tags: ["Moduły", "DI", "Clean arch"],
     accentClass: "text-indigo-400",
-    short: "NE",
+    imageSrc: "/tech-icons/Nest.js.svg",
+    imageAlt: "Nest js icon",
   },
   {
     name: "PostgreSQL",
@@ -282,7 +288,8 @@ const techItems: TechItem[] = [
     progress: 90,
     tags: ["Relacje", "Migrations", "Performance"],
     accentClass: "text-teal-300",
-    short: "PG",
+    imageSrc: "/tech-icons/PostgresSQL.svg",
+    imageAlt: "Postgres icon",
   },
   {
     name: "Python",
@@ -293,16 +300,23 @@ const techItems: TechItem[] = [
     progress: 85,
     tags: ["FastAPI", "Automatyzacje", "Data"],
     accentClass: "text-yellow-300",
-    short: "PY",
+    imageSrc: "/tech-icons/Python.svg",
+    imageAlt: "Python icon",
   },
 ];
 
-function TechIcon({ short }: { short: string }) {
+function TechIcon({ imageSrc, imageAlt }: { imageSrc: string, imageAlt: string }) {
   return (
     <div className="flex h-20 w-20 items-center justify-center rounded-3xl bg-slate-950/80 ring-2 ring-cyan-400/60 shadow-[0_0_40px_rgba(56,189,248,0.45)]">
-      <span className="heading-font text-xl font-extrabold text-slate-50">
+      {/* <span className="heading-font text-xl font-extrabold text-slate-50">
         {short}
-      </span>
+      </span> */}
+      <Image 
+        src={`${imageSrc}`}
+        width={50}
+        height={50}
+        alt={`${imageAlt}`}
+      />
     </div>
   );
 }
@@ -490,7 +504,7 @@ export function TechSection() {
                   {/* górny „image” z ikoną technologii */}
                   <div className="card-image-container">
                     <div className="card-image-container-inner">
-                      <TechIcon short={tech.short} />
+                      <TechIcon imageSrc={tech.imageSrc} imageAlt={tech.imageAlt} />
                     </div>
                   </div>
 
