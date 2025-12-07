@@ -5,6 +5,7 @@ import { ProcessSection } from "@/components/ProcessSection";
 import { TechSection } from "@/components/TechSection";
 import { ProjectsSection } from "@/components/ProjectsSection";
 import { ContactSection } from "@/components/ContactSection";
+import { BlogSection } from "@/components/blog/BlogSection";
 // import { Footer } from "@/components/Footer";
 
 export default function Home() {
@@ -17,6 +18,7 @@ export default function Home() {
         <ProcessSection />
         <TechSection />
         <ProjectsSection />
+        <BlogSection />
         <ContactSection />
       </main>
       {/* <Footer /> */}

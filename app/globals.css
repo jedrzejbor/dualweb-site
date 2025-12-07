@@ -36,6 +36,10 @@ body {
   font-weight: 400;
 }
 
+button, a {
+  cursor: pointer;
+}
+
 /* bardzo mocne, techowe nagłówki */
 .heading-font {
   font-family: var(--font-montserrat), system-ui, -apple-system,
