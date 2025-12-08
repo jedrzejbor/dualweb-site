@@ -1,6 +1,11 @@
 @import "tailwindcss";
+@import "tw-animate-css";
 
+@custom-variant dark (&:is(.dark *));
+
+/* === GŁÓWNE ZMIENNE (DARK THEME JAK WCZEŚNIEJ) === */
 :root {
+  /* tło / tekst jak w Twojej wersji */
   --background: #020617;
   --foreground: #e5e7eb;
 
@@ -10,33 +15,117 @@
   --neon-pink: rgba(236, 72, 153, 0.8);
   --neon-blue: rgba(59, 130, 246, 0.8);
   --neon-green: rgba(16, 185, 129, 0.8);
+
+  /* tokeny wymagane przez shadcn – ustawiamy je pod ciemny motyw */
+  --radius: 0.625rem;
+
+  --card: #020617;
+  --card-foreground: #e5e7eb;
+
+  --popover: #020617;
+  --popover-foreground: #e5e7eb;
+
+  --primary: #4f46e5; /* indigo */
+  --primary-foreground: #f9fafb;
+
+  --secondary: #0f172a;
+  --secondary-foreground: #e5e7eb;
+
+  --muted: #020617;
+  --muted-foreground: #9ca3af;
+
+  --accent: #0f172a;
+  --accent-foreground: #e5e7eb;
+
+  --destructive: #ef4444;
+
+  --border: #1f2937;
+  --input: #1f2937;
+  --ring: #38bdf8;
+
+  /* te niżej shadcn wykorzystuje sporadycznie, ale niech będą spójne */
+  --chart-1: #0ea5e9;
+  --chart-2: #22c55e;
+  --chart-3: #a855f7;
+  --chart-4: #eab308;
+  --chart-5: #f97316;
+
+  --sidebar: #020617;
+  --sidebar-foreground: #e5e7eb;
+  --sidebar-primary: #4f46e5;
+  --sidebar-primary-foreground: #f9fafb;
+  --sidebar-accent: #0f172a;
+  --sidebar-accent-foreground: #e5e7eb;
+  --sidebar-border: #1f2937;
+  --sidebar-ring: #38bdf8;
 }
 
+/* mapowanie zmiennych do Tailwindowego @theme (wymóg tailwind v4 + shadcn) */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+
+  --color-destructive: var(--destructive);
+
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #020617;
-    --foreground: #e5e7eb;
-  }
-}
+/* nie potrzebujemy osobnego light/dark, więc bez bloku .dark */
+
+/* === GLOBALNE STYLE JAK WCZEŚNIEJ === */
 
 html {
   scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
   font-family: var(--font-poppins), system-ui, -apple-system, BlinkMacSystemFont,
     "Segoe UI", sans-serif;
   font-weight: 400;
 }
 
-button, a {
+button,
+a {
   cursor: pointer;
 }
 
@@ -75,10 +164,6 @@ button, a {
 .neon-glow {
   animation: neon-glow 3.2s ease-in-out infinite;
 }
-
-
-
-
 
 /* === Tech carousel === */
 
@@ -301,7 +386,7 @@ button, a {
   height: 100%;
   background: linear-gradient(90deg, var(--neon-blue), var(--neon-green));
   border-radius: 4px;
-  width: 0; /* start od 0 */
+  width: 0; /* start od 0, animacja do --progress */
   transition: width 0.8s cubic-bezier(0.17, 0.67, 0.83, 0.67);
 }
 
@@ -451,5 +536,15 @@ button, a {
 
   .card-image-container {
     height: 160px;
+  }
+}
+
+/* baza od shadcn – ale z naszymi zmiennymi */
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
   }
 }

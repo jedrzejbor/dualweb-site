@@ -2,6 +2,8 @@
 
 import Image from "next/image";
 import { FadeInSection } from "./FadeInSection";
+import { LayoutTextFlip } from "./ui/layout-text-flip";
+import { motion } from "motion/react";
 
 export function HeroSection() {
   return (
@@ -18,9 +20,15 @@ export function HeroSection() {
 
           <h1 className="heading-font text-3xl sm:text-4xl md:text-5xl font-black tracking-tight">
             Budujemy{" "}
-            <span className="bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent font-black">
+            <motion.div className="relative mx-4 my-4 flex flex-col items-center justify-start text-center sm:mx-0 sm:flex-row">
+              <LayoutTextFlip
+                text=""
+                words={["nowoczesne strony", "produkty SaaS", "aplikacje webowe"]}
+              />
+            </motion.div>
+            {/* <span className="bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent font-black">
               nowoczesne strony i SaaS
-            </span>{" "}
+            </span>{" "} */}
             dla Twojego biznesu.
           </h1>
 
