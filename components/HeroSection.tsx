@@ -20,7 +20,7 @@ export function HeroSection() {
 
           <h1 className="heading-font text-3xl sm:text-4xl md:text-5xl font-black tracking-tight">
             Budujemy{" "}
-            <motion.div className="relative mx-4 my-4 flex flex-col items-center justify-start text-center sm:mx-0 sm:flex-row">
+            <motion.div className="relative my-4 flex flex-col items-start justify-start text-center sm:mx-0 sm:flex-row">
               <LayoutTextFlip
                 text=""
                 words={["nowoczesne strony", "produkty SaaS", "aplikacje webowe"]}
