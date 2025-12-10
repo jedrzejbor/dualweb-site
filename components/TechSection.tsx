@@ -537,7 +537,9 @@ export function TechSection() {
               return (
                 <div
                   key={tech.name}
-                  ref={(el) => (cardRefs.current[index] = el)}
+                  ref={(el) => {
+                    cardRefs.current[index] = el;
+                  }}
                   className={`tech-carousel-card ${positionClass}`}
                 >
                   {/* górny „image” z ikoną technologii */}
