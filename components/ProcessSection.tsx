@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { FadeInSection } from "./FadeInSection";
+import { FadeInSection } from './FadeInSection';
 
 export function ProcessSection() {
   return (
@@ -16,11 +16,11 @@ export function ProcessSection() {
         <div className="space-y-3 text-left">
           <p className="kicker text-indigo-400">Jak pracujemy</p>
           <h2 className="heading-font text-2xl font-extrabold sm:text-3xl md:text-4xl">
-            Przejrzysty proces od{" "}
+            Przejrzysty proces od{' '}
             <span className="bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent font-black">
               pomysłu
-            </span>{" "}
-            do działającego{" "}
+            </span>{' '}
+            do działającego{' '}
             <span className="bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent font-black">
               produktu.
             </span>
@@ -83,9 +83,8 @@ export function ProcessSection() {
               Bezpośredni kontakt z zespołem
             </p>
             <p className="mt-2">
-              Kontaktujesz się bezpośrednio z osobą, która będzie robiła Twój
-              projekt, nie z handlowcem. Oszczędzamy Twój czas i szybciej
-              dochodzimy do sedna.
+              Kontaktujesz się bezpośrednio z osobą, która będzie robiła Twój projekt, nie z
+              handlowcem. Oszczędzamy Twój czas i szybciej dochodzimy do sedna.
             </p>
           </div>
 
@@ -94,9 +93,8 @@ export function ProcessSection() {
               Kompletny proces, jeśli tego potrzebujesz
             </p>
             <p className="mt-2">
-              Możemy wejść tylko w warstwę techniczną albo przejść z Tobą cały
-              proces: od pomysłu, przez development, po wsparcie techniczne,
-              biznesowe i marketingowe.
+              Możemy wejść tylko w warstwę techniczną albo przejść z Tobą cały proces: od pomysłu,
+              przez development, po wsparcie techniczne, biznesowe i marketingowe.
             </p>
           </div>
         </div>
@@ -137,9 +135,6 @@ export function ProcessSection() {
 //   );
 // }
 
-
-
-
 function TimelineStep({
   number,
   subtitle,
@@ -151,17 +146,15 @@ function TimelineStep({
   title: string;
   description: string;
 }) {
-  const [firstWord, ...restWords] = title.split(" ");
-  const rest = restWords.join(" ");
+  const [firstWord, ...restWords] = title.split(' ');
+  const rest = restWords.join(' ');
 
   return (
     <div className="group relative mb-10 flex items-center gap-6 sm:gap-8">
       {/* Numer w neonowym krążku */}
       <div className="relative flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-slate-700 bg-slate-950">
         <div className="pointer-events-none absolute inset-0 rounded-full bg-gradient-to-br from-indigo-500/30 to-cyan-400/30 blur-md opacity-70 group-hover:opacity-100" />
-        <p className="heading-font text-lg font-extrabold text-slate-50">
-          {number}
-        </p>
+        <p className="heading-font text-lg font-extrabold text-slate-50">{number}</p>
       </div>
 
       {/* Card z tytułem + opisem */}
@@ -179,13 +172,9 @@ function TimelineStep({
             </span>
             {rest && <> {rest}</>}
           </h3>
-          <p className="mt-2 text-xs text-slate-300 sm:text-sm">
-            {description}
-          </p>
+          <p className="mt-2 text-xs text-slate-300 sm:text-sm">{description}</p>
         </div>
       </div>
     </div>
   );
 }
-
-

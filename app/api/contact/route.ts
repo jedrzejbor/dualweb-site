@@ -1,6 +1,6 @@
-import { NextResponse } from "next/server";
-import { Resend } from "resend";
-import { contactSchema, type ContactPayload } from "@/lib/validators/contactSchema";
+import { NextResponse } from 'next/server';
+import { Resend } from 'resend';
+import { contactSchema, type ContactPayload } from '@/lib/validators/contactSchema';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -17,27 +17,26 @@ export async function POST(req: Request) {
       return NextResponse.json(
         {
           success: false,
-          message: "Sprawdź proszę wprowadzone dane.",
+          message: 'Sprawdź proszę wprowadzone dane.',
           fieldErrors,
         },
         { status: 400 }
       );
     }
 
-    const { name, email, company, projectType, budget, message } =
-      parsed.data as ContactPayload;
+    const { name, email, company, projectType, budget, message } = parsed.data as ContactPayload;
 
     // 2) Przygotowanie maila
     const toEmail = process.env.CONTACT_TO_EMAIL;
     const fromEmail = process.env.CONTACT_FROM_EMAIL;
 
     if (!toEmail || !fromEmail) {
-      console.error("Brak CONTACT_TO_EMAIL lub CONTACT_FROM_EMAIL w env");
+      console.error('Brak CONTACT_TO_EMAIL lub CONTACT_FROM_EMAIL w env');
       return NextResponse.json(
         {
           success: false,
           message:
-            "Formularz chwilowo jest niedostępny. Napisz proszę bezpośrednio na kontakt@dualweb.pl.",
+            'Formularz chwilowo jest niedostępny. Napisz proszę bezpośrednio na kontakt@dualweb.pl.',
         },
         { status: 500 }
       );
@@ -52,21 +51,13 @@ export async function POST(req: Request) {
       ${
         company
           ? `<p><strong>Firma:</strong> ${company}</p>`
-          : "<p><strong>Firma:</strong> (nie podano)</p>"
+          : '<p><strong>Firma:</strong> (nie podano)</p>'
       }
-      ${
-        projectType
-          ? `<p><strong>Typ projektu:</strong> ${projectType}</p>`
-          : ""
-      }
-      ${
-        budget
-          ? `<p><strong>Budżet orientacyjny:</strong> ${budget}</p>`
-          : ""
-      }
+      ${projectType ? `<p><strong>Typ projektu:</strong> ${projectType}</p>` : ''}
+      ${budget ? `<p><strong>Budżet orientacyjny:</strong> ${budget}</p>` : ''}
       <hr />
       <p><strong>Wiadomość:</strong></p>
-      <p>${message.replace(/\n/g, "<br />")}</p>
+      <p>${message.replace(/\n/g, '<br />')}</p>
     `;
 
     // 3) Wysyłka przez Resend
@@ -79,12 +70,12 @@ export async function POST(req: Request) {
     });
 
     if (error) {
-      console.error("Resend error:", error);
+      console.error('Resend error:', error);
       return NextResponse.json(
         {
           success: false,
           message:
-            "Nie udało się wysłać wiadomości. Spróbuj ponownie albo napisz bezpośrednio na kontakt@dualweb.pl.",
+            'Nie udało się wysłać wiadomości. Spróbuj ponownie albo napisz bezpośrednio na kontakt@dualweb.pl.',
         },
         { status: 502 }
       );
@@ -93,12 +84,11 @@ export async function POST(req: Request) {
     // 4) OK
     return NextResponse.json({ success: true }, { status: 200 });
   } catch (err) {
-    console.error("API /contact – nieoczekiwany błąd:", err);
+    console.error('API /contact – nieoczekiwany błąd:', err);
     return NextResponse.json(
       {
         success: false,
-        message:
-          "Wystąpił nieoczekiwany błąd po stronie serwera. Spróbuj ponownie za chwilę.",
+        message: 'Wystąpił nieoczekiwany błąd po stronie serwera. Spróbuj ponownie za chwilę.',
       },
       { status: 500 }
     );

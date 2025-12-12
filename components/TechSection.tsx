@@ -211,11 +211,10 @@
 //   );
 // }
 
+'use client';
 
-"use client";
-
-import { useCallback, useEffect, useRef, useState } from "react";
-import { FadeInSection } from "./FadeInSection";
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { FadeInSection } from './FadeInSection';
 import Image from 'next/image';
 
 type TechItem = {
@@ -232,91 +231,86 @@ type TechItem = {
 
 const techItems: TechItem[] = [
   {
-    name: "React",
-    role: "Frontend core",
-    usage: "W większości projektów",
+    name: 'React',
+    role: 'Frontend core',
+    usage: 'W większości projektów',
     description:
-      "Biblioteka, na której budujemy interfejsy – od prostych landingów po złożone aplikacje webowe.",
+      'Biblioteka, na której budujemy interfejsy – od prostych landingów po złożone aplikacje webowe.',
     progress: 95,
-    tags: ["SPA", "UI", "Hooks"],
-    accentClass: "text-cyan-400",
-    imageSrc: "/tech-icons/react.svg",
-    imageAlt: "React icon",
+    tags: ['SPA', 'UI', 'Hooks'],
+    accentClass: 'text-cyan-400',
+    imageSrc: '/tech-icons/react.svg',
+    imageAlt: 'React icon',
   },
   {
-    name: "Next.js",
-    role: "Frontend + SSR",
-    usage: "Produkcyjne projekty",
+    name: 'Next.js',
+    role: 'Frontend + SSR',
+    usage: 'Produkcyjne projekty',
     description:
-      "Framework do szybkich, SEO-przyjaznych aplikacji. SSR, SSG, API routes i świetna integracja z Vercel.",
+      'Framework do szybkich, SEO-przyjaznych aplikacji. SSR, SSG, API routes i świetna integracja z Vercel.',
     progress: 92,
-    tags: ["SSR", "SSG", "RSC"],
-    accentClass: "text-sky-400",
-    imageSrc: "/tech-icons/next-icon.png",
-    imageAlt: "Next icon",
+    tags: ['SSR', 'SSG', 'RSC'],
+    accentClass: 'text-sky-400',
+    imageSrc: '/tech-icons/next-icon.png',
+    imageAlt: 'Next icon',
   },
   {
-    name: "Node.js",
-    role: "Backend",
-    usage: "API i serwisy",
+    name: 'Node.js',
+    role: 'Backend',
+    usage: 'API i serwisy',
     description:
-      "Budujemy API, integracje i usługi backendowe w Node – od prostych integracji po mikroserwisy.",
+      'Budujemy API, integracje i usługi backendowe w Node – od prostych integracji po mikroserwisy.',
     progress: 90,
-    tags: ["REST", "Integracje", "Worker"],
-    accentClass: "text-emerald-400",
-    imageSrc: "/tech-icons/Node-icon.svg",
-    imageAlt: "Node icon rest",
+    tags: ['REST', 'Integracje', 'Worker'],
+    accentClass: 'text-emerald-400',
+    imageSrc: '/tech-icons/Node-icon.svg',
+    imageAlt: 'Node icon rest',
   },
   {
-    name: "NestJS",
-    role: "Backend framework",
-    usage: "Większe systemy",
+    name: 'NestJS',
+    role: 'Backend framework',
+    usage: 'Większe systemy',
     description:
-      "Struktura, modularność i dobre praktyki na backendzie. Idealny do większych systemów i SaaS-ów.",
+      'Struktura, modularność i dobre praktyki na backendzie. Idealny do większych systemów i SaaS-ów.',
     progress: 88,
-    tags: ["Moduły", "DI", "Clean arch"],
-    accentClass: "text-indigo-400",
-    imageSrc: "/tech-icons/Nest.js.svg",
-    imageAlt: "Nest js icon",
+    tags: ['Moduły', 'DI', 'Clean arch'],
+    accentClass: 'text-indigo-400',
+    imageSrc: '/tech-icons/Nest.js.svg',
+    imageAlt: 'Nest js icon',
   },
   {
-    name: "PostgreSQL",
-    role: "Baza danych",
-    usage: "Główna baza",
+    name: 'PostgreSQL',
+    role: 'Baza danych',
+    usage: 'Główna baza',
     description:
-      "Relacyjna baza danych, na której opieramy większość systemów – stabilność, bezpieczeństwo i skalowalność.",
+      'Relacyjna baza danych, na której opieramy większość systemów – stabilność, bezpieczeństwo i skalowalność.',
     progress: 90,
-    tags: ["Relacje", "Migrations", "Performance"],
-    accentClass: "text-teal-300",
-    imageSrc: "/tech-icons/PostgresSQL.svg",
-    imageAlt: "Postgres icon",
+    tags: ['Relacje', 'Migrations', 'Performance'],
+    accentClass: 'text-teal-300',
+    imageSrc: '/tech-icons/PostgresSQL.svg',
+    imageAlt: 'Postgres icon',
   },
   {
-    name: "Python",
-    role: "Backend / automatyzacje",
-    usage: "Data, integracje",
+    name: 'Python',
+    role: 'Backend / automatyzacje',
+    usage: 'Data, integracje',
     description:
-      "Skrypty, integracje, automatyzacje i backend w Pythonie – szczególnie tam, gdzie wchodzi data / AI.",
+      'Skrypty, integracje, automatyzacje i backend w Pythonie – szczególnie tam, gdzie wchodzi data / AI.',
     progress: 85,
-    tags: ["FastAPI", "Automatyzacje", "Data"],
-    accentClass: "text-yellow-300",
-    imageSrc: "/tech-icons/Python.svg",
-    imageAlt: "Python icon",
+    tags: ['FastAPI', 'Automatyzacje', 'Data'],
+    accentClass: 'text-yellow-300',
+    imageSrc: '/tech-icons/Python.svg',
+    imageAlt: 'Python icon',
   },
 ];
 
-function TechIcon({ imageSrc, imageAlt }: { imageSrc: string, imageAlt: string }) {
+function TechIcon({ imageSrc, imageAlt }: { imageSrc: string; imageAlt: string }) {
   return (
     <div className="flex h-20 w-20 items-center justify-center rounded-3xl bg-slate-950/80 ring-2 ring-cyan-400/60 shadow-[0_0_40px_rgba(56,189,248,0.45)]">
       {/* <span className="heading-font text-xl font-extrabold text-slate-50">
         {short}
       </span> */}
-      <Image 
-        src={`${imageSrc}`}
-        width={50}
-        height={50}
-        alt={`${imageAlt}`}
-      />
+      <Image src={`${imageSrc}`} width={50} height={50} alt={`${imageAlt}`} />
     </div>
   );
 }
@@ -342,29 +336,26 @@ export function TechSection() {
     }, AUTO_PLAY_PAUSE_AFTER_INTERACTION);
   }, []);
 
-  const recenter = useCallback(
-    (index: number) => {
-      const container = containerRef.current;
-      const track = trackRef.current;
-      const firstCard = cardRefs.current[0];
+  const recenter = useCallback((index: number) => {
+    const container = containerRef.current;
+    const track = trackRef.current;
+    const firstCard = cardRefs.current[0];
 
-      if (!container || !track || !firstCard) return;
+    if (!container || !track || !firstCard) return;
 
-      const cardWidth = firstCard.offsetWidth;
-      const styles = window.getComputedStyle(firstCard);
-      const marginLeft = parseFloat(styles.marginLeft || "0");
-      const marginRight = parseFloat(styles.marginRight || "0");
-      const cardTotal = cardWidth + marginLeft + marginRight;
+    const cardWidth = firstCard.offsetWidth;
+    const styles = window.getComputedStyle(firstCard);
+    const marginLeft = parseFloat(styles.marginLeft || '0');
+    const marginRight = parseFloat(styles.marginRight || '0');
+    const cardTotal = cardWidth + marginLeft + marginRight;
 
-      const amountToMove = index * cardTotal;
-      const containerCenter = container.offsetWidth / 2;
-      const cardCenter = cardWidth / 2;
-      const targetTranslateX = containerCenter - cardCenter - amountToMove;
+    const amountToMove = index * cardTotal;
+    const containerCenter = container.offsetWidth / 2;
+    const cardCenter = cardWidth / 2;
+    const targetTranslateX = containerCenter - cardCenter - amountToMove;
 
-      track.style.transform = `translateX(${targetTranslateX}px)`;
-    },
-    []
-  );
+    track.style.transform = `translateX(${targetTranslateX}px)`;
+  }, []);
 
   // inicjalizacja + resize
   useEffect(() => {
@@ -374,16 +365,14 @@ export function TechSection() {
       recenter(currentIndex);
     };
 
-    window.addEventListener("resize", handleResize);
+    window.addEventListener('resize', handleResize);
     return () => {
-      window.removeEventListener("resize", handleResize);
+      window.removeEventListener('resize', handleResize);
       if (pauseTimeoutRef.current !== null) {
         window.clearTimeout(pauseTimeoutRef.current);
       }
     };
   }, [currentIndex, recenter]);
-
-
 
   const goTo = useCallback(
     (index: number) => {
@@ -398,14 +387,12 @@ export function TechSection() {
     if (!isAutoPlay) return;
 
     const id = window.setTimeout(() => {
-      const nextIndex =
-        currentIndex === techItems.length - 1 ? 0 : currentIndex + 1;
+      const nextIndex = currentIndex === techItems.length - 1 ? 0 : currentIndex + 1;
       goTo(nextIndex);
     }, AUTO_PLAY_INTERVAL);
 
     return () => window.clearTimeout(id);
   }, [isAutoPlay, currentIndex, goTo]);
-
 
   const goNext = () => goTo(currentIndex + 1);
   const goPrev = () => goTo(currentIndex - 1);
@@ -420,8 +407,8 @@ export function TechSection() {
     const track = trackRef.current;
     if (!track) return 0;
     const matrix = window.getComputedStyle(track).transform;
-    if (matrix === "none") return 0;
-    const parsed = matrix.split(",");
+    if (matrix === 'none') return 0;
+    const parsed = matrix.split(',');
     const tx = parsed[4] ? parseFloat(parsed[4]) : 0;
     return tx;
   };
@@ -435,7 +422,7 @@ export function TechSection() {
 
     const track = trackRef.current;
     if (track) {
-      track.style.transition = "none";
+      track.style.transition = 'none';
       track.setPointerCapture(e.pointerId);
     }
   };
@@ -459,8 +446,7 @@ export function TechSection() {
 
     if (track) {
       track.releasePointerCapture(e.pointerId);
-      track.style.transition =
-        "transform 0.75s cubic-bezier(0.21, 0.61, 0.35, 1)";
+      track.style.transition = 'transform 0.75s cubic-bezier(0.21, 0.61, 0.35, 1)';
     }
 
     if (!firstCard) {
@@ -493,27 +479,23 @@ export function TechSection() {
         <div className="space-y-3 text-left">
           <p className="kicker text-indigo-400">Stack technologiczny</p>
           <h2 className="heading-font text-2xl font-extrabold sm:text-3xl md:text-4xl">
-            Technologie, na których{" "}
+            Technologie, na których{' '}
             <span className="bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent font-black">
               budujemy
-            </span>{" "}
-            Twoje{" "}
+            </span>{' '}
+            Twoje{' '}
             <span className="bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent font-black">
               projekty.
             </span>
           </h2>
           <p className="max-w-2xl text-sm text-slate-300 sm:text-base">
-            Korzystamy z nowoczesnego, sprawdzonego stacku – takiego, który
-            pozwala szybko wystartować z MVP, a później bez bólu skalować
-            produkt i rozwijać go o kolejne funkcje.
+            Korzystamy z nowoczesnego, sprawdzonego stacku – takiego, który pozwala szybko
+            wystartować z MVP, a później bez bólu skalować produkt i rozwijać go o kolejne funkcje.
           </p>
         </div>
 
         {/* KARUZELA */}
-        <div
-          className="tech-carousel-container"
-          ref={containerRef}
-        >
+        <div className="tech-carousel-container" ref={containerRef}>
           <div
             className="tech-carousel-track"
             ref={trackRef}
@@ -525,14 +507,14 @@ export function TechSection() {
             {techItems.map((tech, index) => {
               const positionClass =
                 index === currentIndex
-                  ? "is-active"
+                  ? 'is-active'
                   : index === currentIndex - 1
-                  ? "is-prev"
+                  ? 'is-prev'
                   : index === currentIndex + 1
-                  ? "is-next"
+                  ? 'is-next'
                   : index < currentIndex - 1
-                  ? "is-far-prev"
-                  : "is-far-next";
+                  ? 'is-far-prev'
+                  : 'is-far-next';
 
               return (
                 <div
@@ -551,10 +533,7 @@ export function TechSection() {
 
                   {/* content */}
                   <div className="card-content">
-                    <h3
-                      className={`card-title ${tech.accentClass}`}
-                      data-text={tech.name}
-                    >
+                    <h3 className={`card-title ${tech.accentClass}`} data-text={tech.name}>
                       {tech.name}
                     </h3>
                     <p className="card-description">{tech.description}</p>
@@ -562,7 +541,7 @@ export function TechSection() {
                     <div className="card-progress">
                       <div
                         className="progress-value"
-                        style={{ ["--progress" as string]: `${tech.progress}%` }}
+                        style={{ ['--progress' as string]: `${tech.progress}%` }}
                       />
                     </div>
                     <div className="card-stats">
@@ -574,10 +553,7 @@ export function TechSection() {
                   {/* tagi – pokazują się na hover aktywnej karty */}
                   <div className="tech-details">
                     {tech.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="tech-tag"
-                      >
+                      <span key={tag} className="tech-tag">
                         {tag}
                       </span>
                     ))}
@@ -637,9 +613,7 @@ export function TechSection() {
             {techItems.map((_, index) => (
               <div
                 key={index}
-                className={`tech-indicator ${
-                  index === currentIndex ? "active" : ""
-                }`}
+                className={`tech-indicator ${index === currentIndex ? 'active' : ''}`}
                 onClick={() => {
                   pauseAutoPlay();
                   goTo(index);

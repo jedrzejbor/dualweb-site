@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import type { BlogPost } from "@/lib/blogPosts";
+import Link from 'next/link';
+import type { BlogPost } from '@/lib/blogPosts';
 
 export function FeaturedBlogCard({ post }: { post: BlogPost }) {
   return (
@@ -23,7 +23,7 @@ export function FeaturedBlogCard({ post }: { post: BlogPost }) {
 
       <div className="mt-4 flex flex-wrap gap-2 text-[11px] text-slate-300">
         <span className="rounded-full bg-slate-900/70 px-2 py-0.5 border border-slate-700/60">
-          {new Date(post.date).toLocaleDateString("pl-PL")}
+          {new Date(post.date).toLocaleDateString('pl-PL')}
         </span>
         <span className="rounded-full bg-slate-900/70 px-2 py-0.5 border border-slate-700/60">
           {post.readingTime}

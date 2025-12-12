@@ -263,29 +263,23 @@
 //   );
 // }
 
+'use client';
 
+import { useState } from 'react';
+import { FadeInSection } from './FadeInSection';
+import { contactSchema, type ContactPayload } from '@/lib/validators/contactSchema';
 
-
-"use client";
-
-import { useState } from "react";
-import { FadeInSection } from "./FadeInSection";
-import {
-  contactSchema,
-  type ContactPayload,
-} from "@/lib/validators/contactSchema";
-
-type FormState = "idle" | "loading" | "success" | "error";
+type FormState = 'idle' | 'loading' | 'success' | 'error';
 type FieldErrors = Partial<Record<keyof ContactPayload, string[]>>;
 
 export function ContactSection() {
-  const [status, setStatus] = useState<FormState>("idle");
+  const [status, setStatus] = useState<FormState>('idle');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setStatus("loading");
+    setStatus('loading');
     setErrorMessage(null);
     setFieldErrors({});
 
@@ -294,12 +288,12 @@ export function ContactSection() {
 
     // 1) Budujemy payload (same stringi)
     const payload: ContactPayload = {
-      name: (formData.get("name") ?? "").toString(),
-      email: (formData.get("email") ?? "").toString(),
-      company: (formData.get("company") ?? "").toString(),
-      projectType: (formData.get("projectType") ?? "").toString(),
-      budget: (formData.get("budget") ?? "").toString(),
-      message: (formData.get("message") ?? "").toString(),
+      name: (formData.get('name') ?? '').toString(),
+      email: (formData.get('email') ?? '').toString(),
+      company: (formData.get('company') ?? '').toString(),
+      projectType: (formData.get('projectType') ?? '').toString(),
+      budget: (formData.get('budget') ?? '').toString(),
+      message: (formData.get('message') ?? '').toString(),
     };
 
     // 2) Walidacja Zodem po stronie klienta
@@ -308,55 +302,48 @@ export function ContactSection() {
     if (!parsed.success) {
       const { fieldErrors } = parsed.error.flatten();
       setFieldErrors(fieldErrors);
-      setStatus("error");
-      setErrorMessage("Sprawdź proszę zaznaczone pola i spróbuj ponownie.");
+      setStatus('error');
+      setErrorMessage('Sprawdź proszę zaznaczone pola i spróbuj ponownie.');
       return;
     }
 
     try {
       // 3) Wysyłka na API
-      const res = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(parsed.data),
       });
 
       const data = await res.json().catch(() => null);
 
       if (!res.ok || !data?.success) {
-        setStatus("error");
+        setStatus('error');
         if (data?.fieldErrors) {
           setFieldErrors(data.fieldErrors);
         }
         setErrorMessage(
-          data?.message ??
-            "Coś poszło nie tak. Spróbuj ponownie albo napisz bezpośrednio na maila."
+          data?.message ?? 'Coś poszło nie tak. Spróbuj ponownie albo napisz bezpośrednio na maila.'
         );
         return;
       }
 
       // 4) Success
-      setStatus("success");
+      setStatus('success');
       setErrorMessage(null);
       setFieldErrors({});
       form.reset();
     } catch (err) {
       console.error(err);
-      setStatus("error");
-      setErrorMessage(
-        "Coś poszło nie tak. Spróbuj ponownie albo napisz bezpośrednio na maila."
-      );
+      setStatus('error');
+      setErrorMessage('Coś poszło nie tak. Spróbuj ponownie albo napisz bezpośrednio na maila.');
     }
   }
 
   const renderError = (field: keyof ContactPayload) => {
     const msgs = fieldErrors[field];
     if (!msgs || msgs.length === 0) return null;
-    return (
-      <p className="text-[11px] text-rose-300">
-        {msgs[0]}
-      </p>
-    );
+    return <p className="text-[11px] text-rose-300">{msgs[0]}</p>;
   };
 
   return (
@@ -372,32 +359,32 @@ export function ContactSection() {
         <div className="md:w-1/2 space-y-5">
           <p className="kicker text-indigo-400">Kontakt</p>
           <h2 className="heading-font text-2xl font-extrabold sm:text-3xl md:text-4xl">
-            Opowiedz nam{" "}
+            Opowiedz nam{' '}
             <span className="bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent font-black">
               o projekcie
-            </span>{" "}
-            – odezwiemy się z konkretną{" "}
+            </span>{' '}
+            – odezwiemy się z konkretną{' '}
             <span className="bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent font-black">
               propozycją.
             </span>
           </h2>
 
           <p className="text-sm text-slate-300 sm:text-base">
-            Napisz kilka zdań o biznesie, celu projektu i tym, co jest dla
-            Ciebie najważniejsze. Odezwiemy się z propozycją podejścia,
-            orientacyjnym zakresem prac i możliwymi kolejnymi krokami.
+            Napisz kilka zdań o biznesie, celu projektu i tym, co jest dla Ciebie najważniejsze.
+            Odezwiemy się z propozycją podejścia, orientacyjnym zakresem prac i możliwymi kolejnymi
+            krokami.
           </p>
 
           <ul className="mt-4 space-y-2 text-sm text-slate-300">
             <li className="flex items-start gap-2">
               <span className="mt-[6px] inline-block h-1.5 w-1.5 rounded-full bg-gradient-to-r from-indigo-400 to-cyan-400" />
-              Bezpośredni kontakt z osobami, które będą realizować projekt –
-              bez warstwy „handlowej”.
+              Bezpośredni kontakt z osobami, które będą realizować projekt – bez warstwy
+              „handlowej”.
             </li>
             <li className="flex items-start gap-2">
               <span className="mt-[6px] inline-block h-1.5 w-1.5 rounded-full bg-gradient-to-r from-indigo-400 to-cyan-400" />
-              Możemy wejść tylko w development albo przejść z Tobą cały proces:
-              od koncepcji, przez wdrożenie, po wsparcie.
+              Możemy wejść tylko w development albo przejść z Tobą cały proces: od koncepcji, przez
+              wdrożenie, po wsparcie.
             </li>
           </ul>
 
@@ -406,13 +393,13 @@ export function ContactSection() {
               Wolisz napisać maila?
             </p>
             <p className="mt-2">
-              Wyślij wiadomość na{" "}
+              Wyślij wiadomość na{' '}
               <a
                 href="mailto:kontakt@dualweb.pl"
                 className="font-semibold text-cyan-300 underline-offset-2 hover:underline"
               >
                 kontakt@dualweb.pl
-              </a>{" "}
+              </a>{' '}
               – możesz też podpiąć brief / dokument z opisem projektu.
             </p>
           </div>
@@ -428,10 +415,7 @@ export function ContactSection() {
               {/* Imię + firma */}
               <div className="grid gap-3 sm:grid-cols-2">
                 <div className="space-y-1.5">
-                  <label
-                    htmlFor="name"
-                    className="text-xs font-medium text-slate-200"
-                  >
+                  <label htmlFor="name" className="text-xs font-medium text-slate-200">
                     Imię i nazwisko *
                   </label>
                   <input
@@ -441,14 +425,11 @@ export function ContactSection() {
                     placeholder="np. Anna Kowalska"
                     className="w-full rounded-xl border border-slate-700 bg-slate-900/80 px-3 py-2 text-sm text-slate-100 outline-none ring-0 transition focus:border-cyan-400 focus:bg-slate-900 focus:ring-1 focus:ring-cyan-400/60"
                   />
-                  {renderError("name")}
+                  {renderError('name')}
                 </div>
 
                 <div className="space-y-1.5">
-                  <label
-                    htmlFor="company"
-                    className="text-xs font-medium text-slate-200"
-                  >
+                  <label htmlFor="company" className="text-xs font-medium text-slate-200">
                     Firma (opcjonalnie)
                   </label>
                   <input
@@ -457,15 +438,12 @@ export function ContactSection() {
                     placeholder="np. Studio marketingowe"
                     className="w-full rounded-xl border border-slate-700 bg-slate-900/80 px-3 py-2 text-sm text-slate-100 outline-none ring-0 transition focus:border-cyan-400 focus:bg-slate-900 focus:ring-1 focus:ring-cyan-400/60"
                   />
-                  {renderError("company")}
+                  {renderError('company')}
                 </div>
               </div>
 
               <div className="space-y-1.5">
-                <label
-                  htmlFor="email"
-                  className="text-xs font-medium text-slate-200"
-                >
+                <label htmlFor="email" className="text-xs font-medium text-slate-200">
                   E-mail kontaktowy *
                 </label>
                 <input
@@ -476,16 +454,13 @@ export function ContactSection() {
                   placeholder="np. anna@firma.pl"
                   className="w-full rounded-xl border border-slate-700 bg-slate-900/80 px-3 py-2 text-sm text-slate-100 outline-none ring-0 transition focus:border-cyan-400 focus:bg-slate-900 focus:ring-1 focus:ring-cyan-400/60"
                 />
-                {renderError("email")}
+                {renderError('email')}
               </div>
 
               {/* Typ projektu + budżet */}
               <div className="grid gap-3 sm:grid-cols-2">
                 <div className="space-y-1.5">
-                  <label
-                    htmlFor="projectType"
-                    className="text-xs font-medium text-slate-200"
-                  >
+                  <label htmlFor="projectType" className="text-xs font-medium text-slate-200">
                     Typ projektu
                   </label>
                   <select
@@ -503,14 +478,11 @@ export function ContactSection() {
                     <option value="consulting">Konsultacje / audyt</option>
                     <option value="other">Inny projekt</option>
                   </select>
-                  {renderError("projectType")}
+                  {renderError('projectType')}
                 </div>
 
                 <div className="space-y-1.5">
-                  <label
-                    htmlFor="budget"
-                    className="text-xs font-medium text-slate-200"
-                  >
+                  <label htmlFor="budget" className="text-xs font-medium text-slate-200">
                     Budżet orientacyjny
                   </label>
                   <select
@@ -528,15 +500,12 @@ export function ContactSection() {
                     <option value="30k-plus">powyżej 30 000 zł</option>
                     <option value="not-sure">jeszcze nie wiem</option>
                   </select>
-                  {renderError("budget")}
+                  {renderError('budget')}
                 </div>
               </div>
 
               <div className="space-y-1.5">
-                <label
-                  htmlFor="message"
-                  className="text-xs font-medium text-slate-200"
-                >
+                <label htmlFor="message" className="text-xs font-medium text-slate-200">
                   Opowiedz o projekcie *
                 </label>
                 <textarea
@@ -547,27 +516,26 @@ export function ContactSection() {
                   placeholder="Napisz kilka zdań o projekcie, celu, terminie i tym, co jest dla Ciebie najważniejsze."
                   className="w-full rounded-xl border border-slate-700 bg-slate-900/80 px-3 py-2 text-sm text-slate-100 outline-none ring-0 transition focus:border-cyan-400 focus:bg-slate-900 focus:ring-1 focus:ring-cyan-400/60"
                 />
-                {renderError("message")}
+                {renderError('message')}
               </div>
 
               {/* STATUS + SUBMIT */}
               <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                 <button
                   type="submit"
-                  disabled={status === "loading"}
+                  disabled={status === 'loading'}
                   className="inline-flex items-center justify-center rounded-xl bg-gradient-to-r from-indigo-500 to-cyan-500 px-6 py-2.5 text-sm font-semibold text-slate-50 shadow-lg shadow-indigo-500/40 transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-70"
                 >
-                  {status === "loading" ? "Wysyłanie…" : "Wyślij zapytanie"}
+                  {status === 'loading' ? 'Wysyłanie…' : 'Wyślij zapytanie'}
                 </button>
 
                 <div className="min-h-[1.25rem] text-xs text-slate-300 sm:text-[0.7rem]">
-                  {status === "success" && (
+                  {status === 'success' && (
                     <p className="text-emerald-300">
-                      Dzięki! Odezwiemy się z odpowiedzią tak szybko, jak to
-                      możliwe.
+                      Dzięki! Odezwiemy się z odpowiedzią tak szybko, jak to możliwe.
                     </p>
                   )}
-                  {status === "error" && errorMessage && (
+                  {status === 'error' && errorMessage && (
                     <p className="text-rose-300">{errorMessage}</p>
                   )}
                 </div>

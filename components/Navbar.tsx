@@ -1,16 +1,16 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import Image from "next/image";
+import { useEffect, useState } from 'react';
+import Image from 'next/image';
 
 const NAV_LINKS = [
-  { href: "#hero", label: "Start" },
-  { href: "#services", label: "Usługi" },
-  { href: "#process", label: "Proces" },
-  { href: "#tech", label: "Stack" },
-  { href: "#projects", label: "Projekty" },
-  { href: "#blog", label: "Blog" },
-  { href: "#contact", label: "Kontakt" },
+  { href: '#hero', label: 'Start' },
+  { href: '#services', label: 'Usługi' },
+  { href: '#process', label: 'Proces' },
+  { href: '#tech', label: 'Stack' },
+  { href: '#projects', label: 'Projekty' },
+  { href: '#blog', label: 'Blog' },
+  { href: '#contact', label: 'Kontakt' },
 ];
 
 export function Navbar() {
@@ -22,23 +22,23 @@ export function Navbar() {
       setScrolled(window.scrollY > 10);
     };
     onScroll();
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
+    window.addEventListener('scroll', onScroll);
+    return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
   const handleNavClick = (href: string) => {
     setIsOpen(false);
-    if (typeof window === "undefined") return;
+    if (typeof window === 'undefined') return;
     const el = document.querySelector(href);
     if (!el) return;
-    el.scrollIntoView({ behavior: "smooth", block: "start" });
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
   return (
     <header className="sticky top-0 z-50">
       <div
         className={`border-b border-slate-800/60 transition-colors ${
-          scrolled ? "bg-slate-950/95 backdrop-blur-xl" : "bg-slate-950/60 backdrop-blur-md"
+          scrolled ? 'bg-slate-950/95 backdrop-blur-xl' : 'bg-slate-950/60 backdrop-blur-md'
         }`}
       >
         {/* drobny neon pod navem */}
@@ -48,7 +48,7 @@ export function Navbar() {
           {/* logo + nazwa */}
           <button
             type="button"
-            onClick={() => handleNavClick("#hero")}
+            onClick={() => handleNavClick('#hero')}
             className="flex items-center gap-2 rounded-xl bg-slate-900/60 px-2 py-1 text-left transition hover:bg-slate-800/80"
           >
             <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-slate-950 ring-1 ring-indigo-500/60">
@@ -61,12 +61,8 @@ export function Navbar() {
               />
             </div>
             <div className="leading-tight">
-              <p className="heading-font text-xs font-semibold text-slate-50">
-                Dualweb
-              </p>
-              <p className="text-[10px] text-slate-400">
-                Strony • Sklepy • SaaS
-              </p>
+              <p className="heading-font text-xs font-semibold text-slate-50">Dualweb</p>
+              <p className="text-[10px] text-slate-400">Strony • Sklepy • SaaS</p>
             </div>
           </button>
 
@@ -89,7 +85,7 @@ export function Navbar() {
 
             <button
               type="button"
-              onClick={() => handleNavClick("#contact")}
+              onClick={() => handleNavClick('#contact')}
               className="rounded-xl bg-gradient-to-r from-indigo-500 to-cyan-500 px-4 py-2 text-xs font-semibold text-slate-50 shadow-lg shadow-indigo-500/40 transition hover:brightness-110"
             >
               Porozmawiajmy o projekcie
@@ -107,17 +103,17 @@ export function Navbar() {
             <div className="flex flex-col gap-1.5">
               <span
                 className={`block h-[2px] w-4 rounded-full bg-slate-100 transition-transform ${
-                  isOpen ? "translate-y-[3px] rotate-45" : ""
+                  isOpen ? 'translate-y-[3px] rotate-45' : ''
                 }`}
               />
               <span
                 className={`block h-[2px] w-4 rounded-full bg-slate-100 transition-opacity ${
-                  isOpen ? "opacity-0" : "opacity-100"
+                  isOpen ? 'opacity-0' : 'opacity-100'
                 }`}
               />
               <span
                 className={`block h-[2px] w-4 rounded-full bg-slate-100 transition-transform ${
-                  isOpen ? "-translate-y-[3px] -rotate-45" : ""
+                  isOpen ? '-translate-y-[3px] -rotate-45' : ''
                 }`}
               />
             </div>
@@ -142,7 +138,7 @@ export function Navbar() {
             </ul>
             <button
               type="button"
-              onClick={() => handleNavClick("#contact")}
+              onClick={() => handleNavClick('#contact')}
               className="mt-3 w-full rounded-xl bg-gradient-to-r from-indigo-500 to-cyan-500 px-4 py-2.5 text-sm font-semibold text-slate-50 shadow-lg shadow-indigo-500/40 transition hover:brightness-110"
             >
               Porozmawiajmy o projekcie

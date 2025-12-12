@@ -174,19 +174,18 @@
 //   );
 // }
 
+'use client';
 
-"use client";
-
-import { useEffect, useState } from "react";
-import { FadeInSection } from "./FadeInSection";
-import { AnimatePresence, motion } from "framer-motion";
+import { useEffect, useState } from 'react';
+import { FadeInSection } from './FadeInSection';
+import { AnimatePresence, motion } from 'framer-motion';
 
 type Project = {
   id: string;
   title: string;
   subtitle: string;
-  type: "SaaS" | "E-commerce" | "Strona WWW" | "System wewnętrzny";
-  status: "Online" | "W realizacji" | "Koncepcja";
+  type: 'SaaS' | 'E-commerce' | 'Strona WWW' | 'System wewnętrzny';
+  status: 'Online' | 'W realizacji' | 'Koncepcja';
   shortDescription: string;
   description: string;
   responsibilities: string[]; // zakres współpracy
@@ -196,85 +195,82 @@ type Project = {
 
 const projects: Project[] = [
   {
-    id: "saas-fitness",
-    title: "Platforma SaaS dla studia fitness",
-    subtitle: "Rezerwacje, płatności i panel klienta w jednym miejscu",
-    type: "SaaS",
-    status: "W realizacji",
+    id: 'saas-fitness',
+    title: 'Platforma SaaS dla studia fitness',
+    subtitle: 'Rezerwacje, płatności i panel klienta w jednym miejscu',
+    type: 'SaaS',
+    status: 'W realizacji',
     shortDescription:
-      "Aplikacja SaaS do zarządzania zapisami, karnetami i grafikiem zajęć dla małych i średnich studiów fitness.",
+      'Aplikacja SaaS do zarządzania zapisami, karnetami i grafikiem zajęć dla małych i średnich studiów fitness.',
     description:
-      "Klient potrzebował narzędzia, które odciąży obsługę recepcji i pozwoli klientom samodzielnie zarządzać swoimi karnetami. Zaprojektowaliśmy aplikację webową z panelem klienta, panelem właściciela oraz prostym systemem raportów.",
+      'Klient potrzebował narzędzia, które odciąży obsługę recepcji i pozwoli klientom samodzielnie zarządzać swoimi karnetami. Zaprojektowaliśmy aplikację webową z panelem klienta, panelem właściciela oraz prostym systemem raportów.',
     responsibilities: [
-      "Analiza potrzeb biznesowych i pomoc w ułożeniu MVP",
-      "Projekt architektury aplikacji i modelu danych",
-      "Implementacja panelu klienta i panelu administracyjnego",
-      "Integracja z systemem płatności online",
+      'Analiza potrzeb biznesowych i pomoc w ułożeniu MVP',
+      'Projekt architektury aplikacji i modelu danych',
+      'Implementacja panelu klienta i panelu administracyjnego',
+      'Integracja z systemem płatności online',
     ],
-    techStack: ["React", "Next.js", "Node.js", "NestJS", "PostgreSQL", "Tailwind CSS"],
+    techStack: ['React', 'Next.js', 'Node.js', 'NestJS', 'PostgreSQL', 'Tailwind CSS'],
+    results: ['Automatyzacja zapisów na zajęcia', 'Mniej ręcznej obsługi po stronie studia'],
+  },
+  {
+    id: 'ecommerce-fashion',
+    title: 'Sklep e-commerce z odzieżą streetwear',
+    subtitle: 'Skupienie na konwersji i szybkości działania',
+    type: 'E-commerce',
+    status: 'Online',
+    shortDescription:
+      'Nowoczesny sklep z produktami premium, zaprojektowany pod kampanie performance i prostą ścieżkę zakupu.',
+    description:
+      'Klient przechodził z gotowej platformy na dedykowane rozwiązanie. Priorytetem była szybkość, stabilność i możliwość rozwoju o kolejne moduły (program lojalnościowy, integracje z marketplace’ami).',
+    responsibilities: [
+      'Projekt UX/UI kluczowych ekranów koszyka i checkoutu',
+      'Implementacja frontendu i warstwy API',
+      'Integracje z bramkami płatności i systemem magazynowym',
+      'Przygotowanie pod kampanie reklamowe (eventy, analityka)',
+    ],
+    techStack: ['Next.js', 'React', 'Node.js', 'PostgreSQL'],
     results: [
-      "Automatyzacja zapisów na zajęcia",
-      "Mniej ręcznej obsługi po stronie studia",
+      'Szybsze ładowanie strony vs poprzednie rozwiązanie',
+      'Większa kontrola nad rozwojem sklepu',
     ],
   },
   {
-    id: "ecommerce-fashion",
-    title: "Sklep e-commerce z odzieżą streetwear",
-    subtitle: "Skupienie na konwersji i szybkości działania",
-    type: "E-commerce",
-    status: "Online",
+    id: 'internal-crm',
+    title: 'Panel wewnętrzny / mini-CRM',
+    subtitle: 'Prosty system do ogarnięcia leadów i statusów',
+    type: 'System wewnętrzny',
+    status: 'Online',
     shortDescription:
-      "Nowoczesny sklep z produktami premium, zaprojektowany pod kampanie performance i prostą ścieżkę zakupu.",
+      'Lekki system webowy do obsługi leadów, notatek i statusów — zamiast kolejnego Excela.',
     description:
-      "Klient przechodził z gotowej platformy na dedykowane rozwiązanie. Priorytetem była szybkość, stabilność i możliwość rozwoju o kolejne moduły (program lojalnościowy, integracje z marketplace’ami).",
+      'Firma korzystała z arkuszy i wielu narzędzi jednocześnie. Zbudowaliśmy prosty panel webowy, który porządkuje leady, kontakty i statusy działań, bez nadmiaru funkcji, których nikt nie używa.',
     responsibilities: [
-      "Projekt UX/UI kluczowych ekranów koszyka i checkoutu",
-      "Implementacja frontendu i warstwy API",
-      "Integracje z bramkami płatności i systemem magazynowym",
-      "Przygotowanie pod kampanie reklamowe (eventy, analityka)",
+      'Warsztaty i uproszczenie procesów do najważniejszych kroków',
+      'Projekt struktury danych i ról użytkowników',
+      'Implementacja panelu + filtrowania i wyszukiwarki',
+      'Wsparcie przy wdrożeniu do zespołu',
     ],
-    techStack: ["Next.js", "React", "Node.js", "PostgreSQL"],
-    results: [
-      "Szybsze ładowanie strony vs poprzednie rozwiązanie",
-      "Większa kontrola nad rozwojem sklepu",
-    ],
+    techStack: ['React', 'Node.js', 'PostgreSQL'],
+    results: ['Mniej chaosu w leadach', 'Łatwiejsze raportowanie dla właściciela'],
   },
   {
-    id: "internal-crm",
-    title: "Panel wewnętrzny / mini-CRM",
-    subtitle: "Prosty system do ogarnięcia leadów i statusów",
-    type: "System wewnętrzny",
-    status: "Online",
+    id: 'landing-b2b',
+    title: 'Landing B2B dla usługi doradczej',
+    subtitle: 'Strona nastawiona na leady zamiast „ładnego katalogu”',
+    type: 'Strona WWW',
+    status: 'Online',
     shortDescription:
-      "Lekki system webowy do obsługi leadów, notatek i statusów — zamiast kolejnego Excela.",
+      'Landing nastawiony na pozyskiwanie konkretnych zapytań od firm, z dopracowaną sekcją oferty i case studies.',
     description:
-      "Firma korzystała z arkuszy i wielu narzędzi jednocześnie. Zbudowaliśmy prosty panel webowy, który porządkuje leady, kontakty i statusy działań, bez nadmiaru funkcji, których nikt nie używa.",
+      'Zamiast rozbudowanego serwisu, postawiliśmy na pojedynczą stronę z jasnym komunikatem, dowodami skuteczności i prostym formularzem kontaktowym. Całość zaprojektowana tak, żeby było łatwo podpiąć kampanie reklamowe.',
     responsibilities: [
-      "Warsztaty i uproszczenie procesów do najważniejszych kroków",
-      "Projekt struktury danych i ról użytkowników",
-      "Implementacja panelu + filtrowania i wyszukiwarki",
-      "Wsparcie przy wdrożeniu do zespołu",
+      'Pomoc w ułożeniu komunikacji i struktury treści',
+      'Projekt UI, implementacja i techniczne SEO',
+      'Integracja formularza z narzędziami do obsługi leadów',
     ],
-    techStack: ["React", "Node.js", "PostgreSQL"],
-    results: ["Mniej chaosu w leadach", "Łatwiejsze raportowanie dla właściciela"],
-  },
-  {
-    id: "landing-b2b",
-    title: "Landing B2B dla usługi doradczej",
-    subtitle: "Strona nastawiona na leady zamiast „ładnego katalogu”",
-    type: "Strona WWW",
-    status: "Online",
-    shortDescription:
-      "Landing nastawiony na pozyskiwanie konkretnych zapytań od firm, z dopracowaną sekcją oferty i case studies.",
-    description:
-      "Zamiast rozbudowanego serwisu, postawiliśmy na pojedynczą stronę z jasnym komunikatem, dowodami skuteczności i prostym formularzem kontaktowym. Całość zaprojektowana tak, żeby było łatwo podpiąć kampanie reklamowe.",
-    responsibilities: [
-      "Pomoc w ułożeniu komunikacji i struktury treści",
-      "Projekt UI, implementacja i techniczne SEO",
-      "Integracja formularza z narzędziami do obsługi leadów",
-    ],
-    techStack: ["Next.js", "React", "Tailwind CSS"],
-    results: ["Spójna komunikacja oferty", "Gotowość pod kampanie leadowe"],
+    techStack: ['Next.js', 'React', 'Tailwind CSS'],
+    results: ['Spójna komunikacja oferty', 'Gotowość pod kampanie leadowe'],
   },
 ];
 
@@ -286,12 +282,12 @@ export function ProjectsSection() {
     if (!activeProject) return;
 
     const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
+      if (e.key === 'Escape') {
         setActiveProject(null);
       }
     };
-    window.addEventListener("keydown", onKeyDown);
-    return () => window.removeEventListener("keydown", onKeyDown);
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
   }, [activeProject]);
 
   return (
@@ -308,22 +304,22 @@ export function ProjectsSection() {
           <div className="max-w-xl space-y-3">
             <p className="kicker text-indigo-400">Projekty i kierunki</p>
             <h2 className="heading-font text-2xl font-extrabold sm:text-3xl md:text-4xl">
-              Z jakimi{" "}
+              Z jakimi{' '}
               <span className="bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent font-black">
                 projektami
-              </span>{" "}
+              </span>{' '}
               najczęściej pracujemy.
             </h2>
             <p className="text-sm text-slate-300 sm:text-base">
-              Część projektów to produkcyjne wdrożenia, część to inicjatywy
-              wewnętrzne i koncepty pod SaaS. Po kliknięciu w kartę możesz
-              zobaczyć mini case study z zakresem prac i użytym stackiem.
+              Część projektów to produkcyjne wdrożenia, część to inicjatywy wewnętrzne i koncepty
+              pod SaaS. Po kliknięciu w kartę możesz zobaczyć mini case study z zakresem prac i
+              użytym stackiem.
             </p>
           </div>
 
           <p className="max-w-sm text-xs text-slate-400 sm:text-sm">
-            Jeśli masz inny typ projektu – spokojnie. Proces i stack dobierzemy
-            tak, żeby pasował do Twojej branży i etapu rozwoju.
+            Jeśli masz inny typ projektu – spokojnie. Proces i stack dobierzemy tak, żeby pasował do
+            Twojej branży i etapu rozwoju.
           </p>
         </div>
 
@@ -342,10 +338,7 @@ export function ProjectsSection() {
       {/* MODAL / CASE STUDY */}
       <AnimatePresence>
         {activeProject && (
-          <ProjectModal
-            project={activeProject}
-            onClose={() => setActiveProject(null)}
-          />
+          <ProjectModal project={activeProject} onClose={() => setActiveProject(null)} />
         )}
       </AnimatePresence>
     </FadeInSection>
@@ -354,13 +347,7 @@ export function ProjectsSection() {
 
 /* ---- KARTA PROJEKTU ---- */
 
-function ProjectCard({
-  project,
-  onClick,
-}: {
-  project: Project;
-  onClick: () => void;
-}) {
+function ProjectCard({ project, onClick }: { project: Project; onClick: () => void }) {
   const { title, subtitle, type, status, shortDescription } = project;
 
   return (
@@ -378,11 +365,11 @@ function ProjectCard({
         </p>
         <span
           className={`rounded-full border px-2 py-0.5 text-[10px] ${
-            status === "Online"
-              ? "border-emerald-400/60 bg-emerald-500/10 text-emerald-300"
-              : status === "W realizacji"
-              ? "border-amber-400/60 bg-amber-500/10 text-amber-300"
-              : "border-slate-500/60 bg-slate-700/30 text-slate-200"
+            status === 'Online'
+              ? 'border-emerald-400/60 bg-emerald-500/10 text-emerald-300'
+              : status === 'W realizacji'
+              ? 'border-amber-400/60 bg-amber-500/10 text-amber-300'
+              : 'border-slate-500/60 bg-slate-700/30 text-slate-200'
           }`}
         >
           {status}
@@ -392,16 +379,14 @@ function ProjectCard({
       <div className="mt-3 space-y-1.5">
         <h3 className="heading-font text-base font-semibold text-slate-50">
           <span className="bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent font-extrabold">
-            {title.split(" ")[0]}
-          </span>{" "}
-          {title.split(" ").slice(1).join(" ")}
+            {title.split(' ')[0]}
+          </span>{' '}
+          {title.split(' ').slice(1).join(' ')}
         </h3>
         <p className="text-xs text-slate-300 sm:text-sm">{subtitle}</p>
       </div>
 
-      <p className="mt-3 text-xs text-slate-400 sm:text-sm">
-        {shortDescription}
-      </p>
+      <p className="mt-3 text-xs text-slate-400 sm:text-sm">{shortDescription}</p>
 
       <div className="mt-4 flex items-center justify-between text-[11px] text-slate-400">
         <span className="inline-flex items-center gap-1">
@@ -429,16 +414,8 @@ function ProjectCard({
 
 /* ---- MODAL ---- */
 
-function ProjectModal({
-  project,
-  onClose,
-}: {
-  project: Project;
-  onClose: () => void;
-}) {
-  const handleBackdropClick = (
-    e: React.MouseEvent<HTMLDivElement, MouseEvent>
-  ) => {
+function ProjectModal({ project, onClose }: { project: Project; onClose: () => void }) {
+  const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     if (e.target === e.currentTarget) {
       onClose();
     }
@@ -457,7 +434,7 @@ function ProjectModal({
         initial={{ opacity: 0, scale: 0.9, y: 12 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.9, y: 12 }}
-        transition={{ duration: 0.2, ease: "easeOut" }}
+        transition={{ duration: 0.2, ease: 'easeOut' }}
       >
         {/* close */}
         <button
@@ -545,10 +522,9 @@ function ProjectModal({
 
           <div className="mt-3 flex flex-wrap items-center justify-between gap-3 border-t border-slate-800 pt-3 text-xs text-slate-400">
             <p>
-              Chcesz podobny projekt?{" "}
+              Chcesz podobny projekt?{' '}
               <span className="text-slate-200">
-                Napisz nam kilka zdań o swoim biznesie – dobierzemy rozwiązanie
-                pod Ciebie.
+                Napisz nam kilka zdań o swoim biznesie – dobierzemy rozwiązanie pod Ciebie.
               </span>
             </p>
             <a

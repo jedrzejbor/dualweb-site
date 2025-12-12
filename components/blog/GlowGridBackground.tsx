@@ -16,7 +16,6 @@ export function GlowGridBackground() {
   );
 }
 
-
 // "use client";
 
 // import React from "react";

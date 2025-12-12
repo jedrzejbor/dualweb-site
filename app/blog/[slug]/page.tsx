@@ -1,47 +1,47 @@
-import { notFound } from "next/navigation";
-import { blogPosts } from "@/lib/blogPosts";
-import { GlowGridBackground } from "@/components/blog/GlowGridBackground";
-import type { Metadata } from "next";
+import { notFound } from 'next/navigation';
+import { blogPosts } from '@/lib/blogPosts';
+import { GlowGridBackground } from '@/components/blog/GlowGridBackground';
+import type { Metadata } from 'next';
 
 type Props = {
   params: { slug: string };
 };
 
-  // SEO dla pojedynczego posta
-  export async function generateMetadata({ params }: Props): Promise<Metadata> {
-    const post = blogPosts.find((p) => p.slug === params.slug);
+// SEO dla pojedynczego posta
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const post = blogPosts.find((p) => p.slug === params.slug);
 
-    if (!post) {
-      return {
-        title: "Artykuł nie znaleziony | Dualweb",
-        description: "Szukany artykuł nie istnieje lub został przeniesiony.",
-      };
-    }
-
-    const baseUrl = "https://dualweb.pl";
-    const url = `${baseUrl}/blog/${post.slug}`;
-
+  if (!post) {
     return {
-      title: `${post.title} | Blog Dualweb`,
-      description: post.excerpt,
-      alternates: {
-        canonical: url,
-      },
-      openGraph: {
-        type: "article",
-        url,
-        title: post.title,
-        description: post.excerpt,
-        siteName: "Dualweb",
-        locale: "pl_PL",
-      },
-      twitter: {
-        card: "summary_large_image",
-        title: post.title,
-        description: post.excerpt,
-      },
+      title: 'Artykuł nie znaleziony | Dualweb',
+      description: 'Szukany artykuł nie istnieje lub został przeniesiony.',
     };
   }
+
+  const baseUrl = 'https://dualweb.pl';
+  const url = `${baseUrl}/blog/${post.slug}`;
+
+  return {
+    title: `${post.title} | Blog Dualweb`,
+    description: post.excerpt,
+    alternates: {
+      canonical: url,
+    },
+    openGraph: {
+      type: 'article',
+      url,
+      title: post.title,
+      description: post.excerpt,
+      siteName: 'Dualweb',
+      locale: 'pl_PL',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: post.title,
+      description: post.excerpt,
+    },
+  };
+}
 
 export default async function BlogPostPage({ params }: Props) {
   const { slug } = await params;
@@ -66,10 +66,10 @@ export default async function BlogPostPage({ params }: Props) {
 
         <div className="mt-4 flex flex-wrap gap-3 text-xs text-slate-300 sm:text-sm">
           <span>
-            {new Date(post.date).toLocaleDateString("pl-PL", {
-              day: "2-digit",
-              month: "2-digit",
-              year: "numeric",
+            {new Date(post.date).toLocaleDateString('pl-PL', {
+              day: '2-digit',
+              month: '2-digit',
+              year: 'numeric',
             })}
           </span>
           <span>•</span>

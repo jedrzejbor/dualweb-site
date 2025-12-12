@@ -29,24 +29,17 @@
 //   );
 // }
 
+'use client';
 
+import { motion, type HTMLMotionProps } from 'framer-motion';
+import type React from 'react';
 
-"use client";
-
-import { motion, type HTMLMotionProps } from "framer-motion";
-import type React from "react";
-
-type FadeInSectionProps = HTMLMotionProps<"section"> & {
+type FadeInSectionProps = HTMLMotionProps<'section'> & {
   children: React.ReactNode;
   delay?: number;
 };
 
-export function FadeInSection({
-  children,
-  className,
-  delay = 0,
-  ...rest
-}: FadeInSectionProps) {
+export function FadeInSection({ children, className, delay = 0, ...rest }: FadeInSectionProps) {
   return (
     <motion.section
       {...rest}
@@ -54,7 +47,7 @@ export function FadeInSection({
       initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.2 }}
-      transition={{ duration: 0.6, ease: "easeOut", delay }}
+      transition={{ duration: 0.6, ease: 'easeOut', delay }}
     >
       {children}
     </motion.section>

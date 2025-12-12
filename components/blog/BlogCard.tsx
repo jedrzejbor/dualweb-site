@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import type { BlogPost } from "@/lib/blogPosts";
+import Link from 'next/link';
+import type { BlogPost } from '@/lib/blogPosts';
 
 export function BlogCard({ post }: { post: BlogPost }) {
   return (
@@ -10,7 +10,7 @@ export function BlogCard({ post }: { post: BlogPost }) {
       <div className="pointer-events-none absolute inset-0 -z-10 rounded-2xl bg-gradient-to-r from-indigo-500/0 via-indigo-500/20 to-cyan-500/0 opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-100" />
 
       <div className="flex items-center justify-between text-[11px] text-slate-400">
-        <span>{new Date(post.date).toLocaleDateString("pl-PL")}</span>
+        <span>{new Date(post.date).toLocaleDateString('pl-PL')}</span>
         <span>{post.readingTime}</span>
       </div>
 
@@ -22,9 +22,7 @@ export function BlogCard({ post }: { post: BlogPost }) {
         </Link>
       </h3>
 
-      <p className="mt-2 line-clamp-3 text-xs text-slate-300 sm:text-sm">
-        {post.excerpt}
-      </p>
+      <p className="mt-2 line-clamp-3 text-xs text-slate-300 sm:text-sm">{post.excerpt}</p>
 
       <div className="mt-3 flex flex-wrap gap-1.5">
         {post.tags.map((tag) => (

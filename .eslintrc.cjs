@@ -4,21 +4,16 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 2024,
     sourceType: 'module',
-    ecmaFeatures: { jsx: true }
+    ecmaFeatures: { jsx: true },
   },
   env: {
     browser: true,
     node: true,
-    es2024: true
+    es2024: true,
   },
   plugins: ['@typescript-eslint', 'prettier'],
-  extends: [
-    'next',
-    'next/core-web-vitals',
-    'plugin:@typescript-eslint/recommended',
-    'prettier'
-  ],
+  extends: ['next', 'next/core-web-vitals', 'plugin:@typescript-eslint/recommended', 'prettier'],
   rules: {
-    'prettier/prettier': 'error'
-  }
+    'prettier/prettier': 'error',
+  },
 };

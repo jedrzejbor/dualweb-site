@@ -5,10 +5,12 @@ adres strony: www.dualweb.pl
 Krótki opis: to repozytorium zawiera nowoczesną stronę zbudowaną w Next.js (App Router), napisaną w TypeScript, podzieloną na komponenty React. Projekt zawiera prosty endpoint API służący do obsługi formularza kontaktowego i wysyłki e-maili przez usługę Resend.
 
 **Szybkie linki**:
+
 - Repozytorium: lokalne pliki projektu
 - Framework: `Next.js` (app directory)
 
 **Technologie**:
+
 - `Next.js` (App Router)
 - `TypeScript`
 - `PostCSS` (konfiguracja w `postcss.config.mjs`)
@@ -17,11 +19,13 @@ Krótki opis: to repozytorium zawiera nowoczesną stronę zbudowaną w Next.js (
 ---
 
 **Główne cele README**:
+
 - Opis struktury projektu
 - Instrukcje uruchomienia lokalnego
 - Wymagane zmienne środowiskowe (kontakt / wysyłka maili)
 
 **Struktura projektu (najważniejsze pliki / foldery)**
+
 - `app/` – główny kod aplikacji (App Router); znajdziesz tu strony i endpointy API.
   - `app/page.tsx` – główna strona.
   - `app/api/contact/route.ts` – endpoint POST do wysyłki wiadomości z formularza kontaktowego.
@@ -32,10 +36,12 @@ Krótki opis: to repozytorium zawiera nowoczesną stronę zbudowaną w Next.js (
 - `app/globals.css` – globalne style projektu.
 
 **Endpointy API**
+
 - `POST /api/contact` – przyjmuje JSON z polami `{ name, email, message }`. Endpoint wykorzystuje bibliotekę `resend` do wysyłki e-maili.
   - W kodzie znajdują się używane zmienne środowiskowe: `RESEND_API_KEY`, `CONTACT_FROM_EMAIL`, `CONTACT_TO_EMAIL`.
 
 Przykładowa obsługa w `app/api/contact/route.ts`:
+
 - walidacja pól `name`, `email`, `message`
 - wysyłka maila przez `resend.emails.send(...)`
 

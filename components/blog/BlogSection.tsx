@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import { FadeInSection } from "../FadeInSection";
-import { GlowGridBackground } from "./GlowGridBackground";
-import { blogPosts } from "@/lib/blogPosts";
-import { FeaturedBlogCard } from "./FeaturedBlogCard";
-import { BlogCard } from "./BlogCard";
-import Link from "next/link";
+import { FadeInSection } from '../FadeInSection';
+import { GlowGridBackground } from './GlowGridBackground';
+import { blogPosts } from '@/lib/blogPosts';
+import { FeaturedBlogCard } from './FeaturedBlogCard';
+import { BlogCard } from './BlogCard';
+import Link from 'next/link';
 
 export function BlogSection() {
   const featured = blogPosts.find((p) => p.featured) ?? blogPosts[0];
@@ -24,16 +24,15 @@ export function BlogSection() {
           <div className="max-w-xl space-y-3">
             <p className="kicker text-indigo-400">Blog / wiedza</p>
             <h2 className="heading-font text-2xl font-extrabold sm:text-3xl md:text-4xl">
-              Dzielimy się{" "}
+              Dzielimy się{' '}
               <span className="bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent font-black">
                 praktycznymi insightami
-              </span>{" "}
+              </span>{' '}
               o stronach, SaaS i marketingu.
             </h2>
             <p className="text-sm text-slate-300 sm:text-base">
-              Nie tylko kodujemy, ale też tłumaczymy, jak technologia wspiera
-              sprzedaż i rozwój biznesu. Artykuły, mini case studies i konkretne
-              tipy z projektów.
+              Nie tylko kodujemy, ale też tłumaczymy, jak technologia wspiera sprzedaż i rozwój
+              biznesu. Artykuły, mini case studies i konkretne tipy z projektów.
             </p>
           </div>
 

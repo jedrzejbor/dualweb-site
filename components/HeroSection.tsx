@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import Image from "next/image";
-import { FadeInSection } from "./FadeInSection";
-import { LayoutTextFlip } from "./ui/layout-text-flip";
-import { motion } from "motion/react";
+import Image from 'next/image';
+import { FadeInSection } from './FadeInSection';
+import { LayoutTextFlip } from './ui/layout-text-flip';
+import { motion } from 'motion/react';
 
 export function HeroSection() {
   return (
@@ -14,16 +14,14 @@ export function HeroSection() {
       <div className="mx-auto flex max-w-6xl flex-col gap-12 px-4 py-16 md:flex-row md:items-center md:py-24">
         {/* LEWA KOLUMNA – TEKST */}
         <div className="flex-1 space-y-6">
-          <p className="kicker text-indigo-400">
-            Strony • Sklepy • SaaS
-          </p>
+          <p className="kicker text-indigo-400">Strony • Sklepy • SaaS</p>
 
           <h1 className="heading-font text-3xl sm:text-4xl md:text-5xl font-black tracking-tight">
-            Budujemy{" "}
+            Budujemy{' '}
             <motion.div className="relative my-4 flex flex-col items-start justify-start text-center sm:mx-0 sm:flex-row">
               <LayoutTextFlip
                 text=""
-                words={["nowoczesne strony", "produkty SaaS", "aplikacje webowe"]}
+                words={['nowoczesne strony', 'produkty SaaS', 'aplikacje webowe']}
               />
             </motion.div>
             {/* <span className="bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent font-black">
@@ -33,9 +31,8 @@ export function HeroSection() {
           </h1>
 
           <p className="max-w-xl text-sm text-slate-300 sm:text-base">
-            Jesteśmy duetem developerów z dużym doświadczeniem
-            w programowaniu i wdrażaniu systemów. Stawiamy na jakość,
-            biznesowe podejście i pomagamy realnie rozwinąć Twój biznes –
+            Jesteśmy duetem developerów z dużym doświadczeniem w programowaniu i wdrażaniu systemów.
+            Stawiamy na jakość, biznesowe podejście i pomagamy realnie rozwinąć Twój biznes –
             doradzając, jak najlepiej wykorzystać technologię.
           </p>
 
@@ -49,7 +46,6 @@ export function HeroSection() {
               Opowiedz nam o projekcie
             </a>
 
-
             {/* drugie CTA – teraz też przycisk */}
             <a
               href="#process"
@@ -61,15 +57,9 @@ export function HeroSection() {
 
           {/* BULLETY */}
           <div className="mt-4 flex flex-wrap gap-2 text-xs text-slate-300">
-            <HeroChip>
-              Stworzymy idealne i bezpieczne rozwiązanie dla Twojej firmy
-            </HeroChip>
-            <HeroChip>
-              Pomożemy rozwinąć biznes i wyjdziemy z inicjatywami
-            </HeroChip>
-            <HeroChip>
-              Wesprzemy po wdrożeniu i w dalszym rozwoju
-            </HeroChip>
+            <HeroChip>Stworzymy idealne i bezpieczne rozwiązanie dla Twojej firmy</HeroChip>
+            <HeroChip>Pomożemy rozwinąć biznes i wyjdziemy z inicjatywami</HeroChip>
+            <HeroChip>Wesprzemy po wdrożeniu i w dalszym rozwoju</HeroChip>
           </div>
         </div>
 
@@ -90,9 +80,7 @@ export function HeroSection() {
               </div>
 
               <div className="space-y-1 text-sm">
-                <p className="kicker text-[0.65rem] text-indigo-300">
-                  Mózg + serce
-                </p>
+                <p className="kicker text-[0.65rem] text-indigo-300">Mózg + serce</p>
                 <p className="font-medium text-slate-50">
                   Strategia, jakość kodu i zaangażowanie w Twój projekt.
                 </p>
@@ -107,9 +95,8 @@ export function HeroSection() {
             </div>
 
             <p className="mt-4 text-[11px] text-slate-400">
-              Od pierwszej rozmowy do wdrożenia – pomagamy poukładać
-              wymagania, dobrać architekturę i dowieźć produkt,
-              który realnie pracuje na wyniki Twojej firmy.
+              Od pierwszej rozmowy do wdrożenia – pomagamy poukładać wymagania, dobrać architekturę
+              i dowieźć produkt, który realnie pracuje na wyniki Twojej firmy.
             </p>
           </div>
         </div>
@@ -132,10 +119,7 @@ function HeroStat({ label, value }: { label: string; value: string }) {
       <p className="heading-font text-[10px] font-semibold uppercase tracking-[0.18em] text-indigo-300 border-b border-indigo-500/40 pb-[2px] w-fit">
         {label}
       </p>
-      <p className="mt-1 text-[11px] font-medium text-slate-100">
-        {value}
-      </p>
+      <p className="mt-1 text-[11px] font-medium text-slate-100">{value}</p>
     </div>
   );
 }
-

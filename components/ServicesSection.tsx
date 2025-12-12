@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { FadeInSection } from "./FadeInSection";
+import { FadeInSection } from './FadeInSection';
 
 export function ServicesSection() {
   return (
@@ -8,26 +8,29 @@ export function ServicesSection() {
       id="services"
       className="relative overflow-hidden border-b border-slate-800 bg-slate-950"
     >
-
       {/* <div className="pointer-events-none absolute inset-0 z-10 bg-[radial-gradient(circle_at_top,_rgba(56,189,248,0.08),transparent_60%),radial-gradient(circle_at_bottom,_rgba(129,140,248,0.06),transparent_55%)]" /> */}
       <div className="absolute inset-0 z-1 bg-[radial-gradient(ellipse_at_bottom,_rgba(56,189,248,0.15),transparent_70%)]"></div>
-<div className="absolute inset-0 z-1 bg-[linear-gradient(115deg,_rgba(56,189,248,0.08),transparent_70%),linear-gradient(245deg,_rgba(129,140,248,0.08),transparent_70%)]"></div>
-
-
+      <div className="absolute inset-0 z-1 bg-[linear-gradient(115deg,_rgba(56,189,248,0.08),transparent_70%),linear-gradient(245deg,_rgba(129,140,248,0.08),transparent_70%)]"></div>
 
       <div className="mx-auto relative z-2 max-w-6xl px-4 py-16 md:py-20">
         {/* NAGŁÓWEK SEKCJI */}
         <div className="max-w-3xl space-y-3">
           <p className="kicker text-indigo-400">Usługi</p>
           <h2 className="heading-font text-2xl font-extrabold sm:text-3xl md:text-4xl">
-            Od pojedynczej <span className="bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent font-black">strony</span> po pełny produkt <span className="bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent font-black">SaaS.</span>
+            Od pojedynczej{' '}
+            <span className="bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent font-black">
+              strony
+            </span>{' '}
+            po pełny produkt{' '}
+            <span className="bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent font-black">
+              SaaS.
+            </span>
           </h2>
           <p className="text-sm text-slate-300 sm:text-base">
-            Możemy wejść w projekt na poziomie samego developmentu albo pomóc Ci
-            od zera poukładać produkt, procesy i marketing. Jeśli masz już
-            dopracowany zakres – dowieziemy stronę techniczną. Jeśli dopiero
-            układasz pomysł – przejdziemy z Tobą drogę od &quot;idei&quot; do
-            działającego biznesu.
+            Możemy wejść w projekt na poziomie samego developmentu albo pomóc Ci od zera poukładać
+            produkt, procesy i marketing. Jeśli masz już dopracowany zakres – dowieziemy stronę
+            techniczną. Jeśli dopiero układasz pomysł – przejdziemy z Tobą drogę od &quot;idei&quot;
+            do działającego biznesu.
           </p>
         </div>
 
@@ -38,9 +41,9 @@ export function ServicesSection() {
             highlight="Strony"
             description="Projektujemy nowoczesne, szybkie strony dopasowane do celu: sprzedaży, generowania leadów, rekrutacji czy prezentacji oferty."
             bullets={[
-              "UX/UI dopasowany do Twojej grupy docelowej",
-              "Szybkość i SEO jako standard, nie opcja",
-              "Integracje z analityką i narzędziami marketingowymi",
+              'UX/UI dopasowany do Twojej grupy docelowej',
+              'Szybkość i SEO jako standard, nie opcja',
+              'Integracje z analityką i narzędziami marketingowymi',
             ]}
             icon={<IconLanding />}
           />
@@ -50,9 +53,9 @@ export function ServicesSection() {
             highlight="Sklepy"
             description="Tworzymy nowe sklepy od zera oraz rozwijamy istniejące projekty. Dbamy o to, żeby sprzedaż była prosta dla klientów i dla Ciebie."
             bullets={[
-              "Nowy sklep od zera lub rozwój istniejącego",
-              "Płatności, dostawy, integracje z magazynem i fakturowaniem",
-              "Przygotowanie pod kampanie performance i remarketing",
+              'Nowy sklep od zera lub rozwój istniejącego',
+              'Płatności, dostawy, integracje z magazynem i fakturowaniem',
+              'Przygotowanie pod kampanie performance i remarketing',
             ]}
             icon={<IconEcommerce />}
           />
@@ -62,9 +65,9 @@ export function ServicesSection() {
             highlight="Aplikacje"
             description="Pomagamy zbudować produkt subskrypcyjny lub wewnętrzny system dopasowany do procesów w Twojej firmie – od MVP po skalowanie."
             bullets={[
-              "Od MVP do skalowania produktu",
-              "Architektura pod rozwój i kolejne funkcje",
-              "Bezpieczne API i baza oparta o PostgreSQL",
+              'Od MVP do skalowania produktu',
+              'Architektura pod rozwój i kolejne funkcje',
+              'Bezpieczne API i baza oparta o PostgreSQL',
             ]}
             icon={<IconSaaS />}
           />
@@ -74,9 +77,9 @@ export function ServicesSection() {
             highlight="Konsultacje,"
             description="Wchodzimy w rolę partnera technologiczno-biznesowego. Możemy poukładać z Tobą ścieżkę klienta, procesy i zakres MVP lub po prostu sprawdzić, czy obecne rozwiązania mają sens."
             bullets={[
-              "Ustalenie zakresu od strony biznesowej i technicznej",
-              "Audyty istniejących systemów i rekomendacje zmian",
-              "Jednorazowe konsultacje albo stałe wsparcie rozwoju",
+              'Ustalenie zakresu od strony biznesowej i technicznej',
+              'Audyty istniejących systemów i rekomendacje zmian',
+              'Jednorazowe konsultacje albo stałe wsparcie rozwoju',
             ]}
             icon={<IconConsulting />}
           />
@@ -89,9 +92,8 @@ export function ServicesSection() {
               Nie wiesz, do której usługi pasuje Twój pomysł?
             </p>
             <p className="text-xs text-slate-300 sm:text-sm">
-              Opowiedz nam krótko o biznesie, a pomożemy dobrać rozwiązanie i
-              zakres współpracy – od samego developmentu po wsparcie
-              marketingowo-biznesowe.
+              Opowiedz nam krótko o biznesie, a pomożemy dobrać rozwiązanie i zakres współpracy – od
+              samego developmentu po wsparcie marketingowo-biznesowe.
             </p>
           </div>
           <a
@@ -130,18 +132,18 @@ function ServiceCard({ title, highlight, description, bullets, icon }: ServiceCa
           </div>
 
           <h3 className="heading-font text-base font-bold text-slate-50 sm:text-lg">
-            {title.split(" ").map((word, index) => {
+            {title.split(' ').map((word, index) => {
               const isHighlight = word.toLowerCase() === highlight.toLowerCase();
               return (
                 <span
                   key={index}
                   className={
                     isHighlight
-                      ? "bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent font-extrabold"
-                      : ""
+                      ? 'bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent font-extrabold'
+                      : ''
                   }
                 >
-                  {word + " "}
+                  {word + ' '}
                 </span>
               );
             })}
