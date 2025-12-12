@@ -65,7 +65,7 @@ import { GlowGridBackground } from "@/components/blog/GlowGridBackground";
 import type { Metadata } from "next";
 
 type Props = {
-  params: Promise<{ slug: string }>;
+  params: { slug: string };
 };
 
   // // SEO dla pojedynczego posta
