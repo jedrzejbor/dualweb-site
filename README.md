@@ -1,5 +1,7 @@
 # Dualweb — Strona portfolio / landing
 
+adres strony: www.dualweb.pl
+
 Krótki opis: to repozytorium zawiera nowoczesną stronę zbudowaną w Next.js (App Router), napisaną w TypeScript, podzieloną na komponenty React. Projekt zawiera prosty endpoint API służący do obsługi formularza kontaktowego i wysyłki e-maili przez usługę Resend.
 
 **Szybkie linki**:
