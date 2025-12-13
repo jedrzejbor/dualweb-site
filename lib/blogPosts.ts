@@ -15,7 +15,7 @@ export const blogPosts: BlogPost[] = [
     title: 'Jak zaprojektować skuteczny landing nastawiony na konwersję',
     excerpt:
       'Na co zwrócić uwagę, projektując landing, który realnie generuje leady i sprzedaż – bez przeładowania i chaosu.',
-    date: '2025-02-10',
+    date: '2025-12-10',
     readingTime: '7 min',
     tags: ['Landing page', 'UX', 'Konwersja'],
     content: [
@@ -29,7 +29,7 @@ export const blogPosts: BlogPost[] = [
     title: 'Stack technologiczny dla nowoczesnej aplikacji SaaS',
     excerpt:
       'Z czego zbudować SaaS, żeby dało się go wygodnie rozwijać, a nie przepisywać po roku?',
-    date: '2025-01-28',
+    date: '2025-11-28',
     readingTime: '6 min',
     tags: ['SaaS', 'Architektura', 'Technologie'],
     content: [
@@ -43,7 +43,7 @@ export const blogPosts: BlogPost[] = [
     title: 'Dlaczego warto łączyć marketing i technologię w jednym zespole',
     excerpt:
       'Projekt, w którym dev i marketing rozmawiają od początku, zwykle kończy się lepszym wynikiem biznesowym.',
-    date: '2024-12-12',
+    date: '2025-12-11',
     readingTime: '5 min',
     tags: ['Marketing', 'Strategia', 'Biznes'],
     content: [
@@ -58,7 +58,7 @@ export const blogPosts: BlogPost[] = [
       'Jak stworzyć nowoczesną stronę internetową, która realnie napędza sprzedaż — kompletny przewodnik 2025',
     excerpt:
       'Kompletny, praktyczny przewodnik o tworzeniu stron internetowych, które nie tylko wyglądają świetnie — ale realnie zwiększają sprzedaż, generują leady i wspierają rozwój biznesu.',
-    date: '2025-02-15',
+    date: '2025-12-12',
     readingTime: '17 min',
     tags: ['Strony WWW', 'Biznes', 'UX', 'Konwersja'],
     featured: true,
