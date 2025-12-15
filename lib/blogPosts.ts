@@ -37,37 +37,37 @@ export const blogPosts: BlogPost[] = [
 
       'W praktyce warto podejść do SEO z dwóch stron: technicznej (wydajność, crawlability, rendering) oraz treściowej (semantyka, struktura informacji, intencja wyszukiwania). Poniżej znajdziesz konkretne wskazówki, które możesz wprowadzić od razu.',
 
-      '## 1. Wybierz odpowiedni sposób renderowania — SSR/SSG/ISR tam, gdzie ma to sens',
+      '1. Wybierz odpowiedni sposób renderowania — SSR/SSG/ISR tam, gdzie ma to sens',
       'Dla treści, które muszą być indeksowane lub szybko dostępne, stosuj Server-Side Rendering (SSR) lub Static Site Generation (SSG). Next.js daje elastyczność — możesz łączyć SSG dla stron marketingowych i SSR/ISR dla dynamicznych części aplikacji SaaS.',
 
-      '## 2. Metadata i Open Graph — każda strona powinna mieć complete meta tags',
+      '2. Metadata i Open Graph — każda strona powinna mieć complete meta tags',
       'Zadbaj o unikalne title, description, canonical oraz Open Graph dla najważniejszych stron. Meta dane to podstawowy sygnał dla wyszukiwarek i mediów społecznościowych; generowanie ich dynamicznie z danych produktu zwiększa trafność i CTR.',
 
-      '## 3. Semantyczny HTML i struktura treści',
+      '3. Semantyczny HTML i struktura treści',
       'Używaj odpowiednich tagów HTML (h1..h3, article, nav, main) i logicznej struktury nagłówków. Roboty wyszukiwarek lepiej rozumieją treść, gdy dokument ma jasną hierarchię informacji — to wpływa też na możliwość wyświetlania fragmentów rozszerzonych (featured snippets).',
 
-      '## 4. Wydajność i Core Web Vitals',
+      '4. Wydajność i Core Web Vitals',
       'Szybkość ładowania i interaktywność wpływają na pozycję w wynikach i konwersję. Optymalizuj obrazy (AVIF/WebP), używaj lazy-loading, minimalizuj third-party scripts i korzystaj z CDN. Mierz LCP, FID/INP i CLS i ustaw progi akceptowalności.',
 
-      '## 5. Structured Data (JSON-LD)',
+      '5. Structured Data (JSON-LD)',
       'Dodaj schema.org (JSON-LD) dla artykułów, produktów, breadcrumbów i FAQ. Strukturalne dane pomagają wyszukiwarkom zrozumieć zawartość i umożliwiają bogatsze wyniki w SERP.',
 
-      '## 6. URLs, canonical i pagination',
+      '6. URLs, canonical i pagination',
       'Projektuj czytelne, krótkie URL-e z kluczowymi słowami, ustaw canonical dla duplikatów i zadbaj o prawidłową obsługę paginacji. To upraszcza indeksowanie i zapobiega problemom z kanonicznością.',
 
-      '## 7. SPA vs. SEO — unikaj pułapek single-page app',
+      '7. SPA vs. SEO — unikaj pułapek single-page app',
       'SPA mogą mieć problemy z crawlowaniem dynamicznych treści. Upewnij się, że ważne treści są renderowane po stronie serwera lub dostępne w HTML przy pierwszym renderze. Alternatywnie generuj mapy stron i server-side snapshots dla robotów.',
 
-      '## 8. Międzynarodowość i hreflang',
+      '8. Międzynarodowość i hreflang',
       'Jeśli kierujesz produkt na różne rynki, użyj hreflang i rozważ oddzielne domeny/subdomeny. Dobrze skonfigurowane hreflang zapobiega problemom z duplikacją treści i poprawia trafność wyników w poszczególnych krajach.',
 
-      '## 9. Sitemaps, robots.txt i monitoring',
+      '9. Sitemaps, robots.txt i monitoring',
       'Wygeneruj sitemap.xml oraz poprawny robots.txt. Monitoruj indeksację w Google Search Console, ustaw alerts i śledź metryki (ruch organiczny, CTR, pozycje). Regularne audyty pozwolą szybko wychwycić regresję SEO po wdrożeniach.',
 
-      '## 10. Testy i CI — nie zapomnij o kontroli zmian wpływających na SEO',
+      '10. Testy i CI — nie zapomnij o kontroli zmian wpływających na SEO',
       'Dodaj testy automatyczne i manualne w procesie CI, które sprawdzą: obecność meta tagów, statusy HTTP, sitemapę oraz podstawowe Core Web Vitals w stagingu. To zmniejsza ryzyko, że deploy złamie SEO.',
 
-      '## Szybka checklista do wdrożenia',
+      'Szybka checklista do wdrożenia',
       '1. Upewnij się, że ważne treści są SSR/SSG',
       '2. Dodaj unikalne meta title + description dla kluczowych stron',
       '3. Wdróż lazy-loading obrazów i optymalizację formatów',
