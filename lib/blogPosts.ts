@@ -25,6 +25,60 @@ export const blogPosts: BlogPost[] = [
     ],
   },
   {
+    slug: 'seo-dla-programistow-jak-projektowac-seo-friendly-strony-i-saas',
+    title: 'SEO dla programistów — jak projektować SEO-friendly strony, aplikacje i SaaS',
+    excerpt:
+      'Praktyczny przewodnik dla developerów: techniczne i produktowe podejście do SEO dla nowoczesnych stron, aplikacji i produktów SaaS.',
+    date: '2025-12-15',
+    readingTime: '8 min',
+    tags: ['SEO', 'Performance', 'SaaS', 'Frontend', 'Backend'],
+    content: [
+      'SEO to nie tylko zadanie dla marketera — to element architektury produktu. Dobra widoczność w wyszukiwarkach zaczyna się już na etapie projektowania strony i wyboru technologii, a jej efekty zależą od współpracy zespołu produktowego, deweloperów i specjalistów SEO.',
+
+      'W praktyce warto podejść do SEO z dwóch stron: technicznej (wydajność, crawlability, rendering) oraz treściowej (semantyka, struktura informacji, intencja wyszukiwania). Poniżej znajdziesz konkretne wskazówki, które możesz wprowadzić od razu.',
+
+      '## 1. Wybierz odpowiedni sposób renderowania — SSR/SSG/ISR tam, gdzie ma to sens',
+      'Dla treści, które muszą być indeksowane lub szybko dostępne, stosuj Server-Side Rendering (SSR) lub Static Site Generation (SSG). Next.js daje elastyczność — możesz łączyć SSG dla stron marketingowych i SSR/ISR dla dynamicznych części aplikacji SaaS.',
+
+      '## 2. Metadata i Open Graph — każda strona powinna mieć complete meta tags',
+      'Zadbaj o unikalne title, description, canonical oraz Open Graph dla najważniejszych stron. Meta dane to podstawowy sygnał dla wyszukiwarek i mediów społecznościowych; generowanie ich dynamicznie z danych produktu zwiększa trafność i CTR.',
+
+      '## 3. Semantyczny HTML i struktura treści',
+      'Używaj odpowiednich tagów HTML (h1..h3, article, nav, main) i logicznej struktury nagłówków. Roboty wyszukiwarek lepiej rozumieją treść, gdy dokument ma jasną hierarchię informacji — to wpływa też na możliwość wyświetlania fragmentów rozszerzonych (featured snippets).',
+
+      '## 4. Wydajność i Core Web Vitals',
+      'Szybkość ładowania i interaktywność wpływają na pozycję w wynikach i konwersję. Optymalizuj obrazy (AVIF/WebP), używaj lazy-loading, minimalizuj third-party scripts i korzystaj z CDN. Mierz LCP, FID/INP i CLS i ustaw progi akceptowalności.',
+
+      '## 5. Structured Data (JSON-LD)',
+      'Dodaj schema.org (JSON-LD) dla artykułów, produktów, breadcrumbów i FAQ. Strukturalne dane pomagają wyszukiwarkom zrozumieć zawartość i umożliwiają bogatsze wyniki w SERP.',
+
+      '## 6. URLs, canonical i pagination',
+      'Projektuj czytelne, krótkie URL-e z kluczowymi słowami, ustaw canonical dla duplikatów i zadbaj o prawidłową obsługę paginacji. To upraszcza indeksowanie i zapobiega problemom z kanonicznością.',
+
+      '## 7. SPA vs. SEO — unikaj pułapek single-page app',
+      'SPA mogą mieć problemy z crawlowaniem dynamicznych treści. Upewnij się, że ważne treści są renderowane po stronie serwera lub dostępne w HTML przy pierwszym renderze. Alternatywnie generuj mapy stron i server-side snapshots dla robotów.',
+
+      '## 8. Międzynarodowość i hreflang',
+      'Jeśli kierujesz produkt na różne rynki, użyj hreflang i rozważ oddzielne domeny/subdomeny. Dobrze skonfigurowane hreflang zapobiega problemom z duplikacją treści i poprawia trafność wyników w poszczególnych krajach.',
+
+      '## 9. Sitemaps, robots.txt i monitoring',
+      'Wygeneruj sitemap.xml oraz poprawny robots.txt. Monitoruj indeksację w Google Search Console, ustaw alerts i śledź metryki (ruch organiczny, CTR, pozycje). Regularne audyty pozwolą szybko wychwycić regresję SEO po wdrożeniach.',
+
+      '## 10. Testy i CI — nie zapomnij o kontroli zmian wpływających na SEO',
+      'Dodaj testy automatyczne i manualne w procesie CI, które sprawdzą: obecność meta tagów, statusy HTTP, sitemapę oraz podstawowe Core Web Vitals w stagingu. To zmniejsza ryzyko, że deploy złamie SEO.',
+
+      '## Szybka checklista do wdrożenia',
+      '1. Upewnij się, że ważne treści są SSR/SSG',
+      '2. Dodaj unikalne meta title + description dla kluczowych stron',
+      '3. Wdróż lazy-loading obrazów i optymalizację formatów',
+      '4. Dodaj JSON-LD dla artykułów/produktów',
+      '5. Wygeneruj sitemap.xml i zarejestruj w GSC',
+      '6. Monitoruj Core Web Vitals i ustaw alerty w CI',
+
+      'Podsumowanie: SEO zaczyna się na etapie projektowania produktu — od wyboru architektury po strukturę treści. Developer, który rozumie SEO i współpracuje z zespołem produktowym, daje swojej firmie realną przewagę konkurencyjną. Jeśli chcesz, mogę przygotować gotowy checklist i fragmenty kodu (meta tags, JSON-LD, sitemap generator) do szybkiej integracji w Twoim projekcie.',
+    ],
+  },
+  {
     slug: 'stack-technologiczny-dla-saas',
     title: 'Stack technologiczny dla nowoczesnej aplikacji SaaS',
     excerpt:
