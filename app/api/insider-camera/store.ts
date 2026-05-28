@@ -3,7 +3,7 @@ import { randomUUID } from 'crypto';
 export type SignalCandidate = RTCIceCandidateInit;
 export type SignalDescription = RTCSessionDescriptionInit;
 
-type ViewerState = {
+export type ViewerState = {
   id: string;
   key: string;
   offer: SignalDescription | null;
@@ -14,16 +14,18 @@ type ViewerState = {
   updatedAt: number;
 };
 
-type CameraSession = {
+export type CameraSession = {
   broadcasterKey: string;
   password: string;
   createdAt: number;
   updatedAt: number;
-  viewers: Map<string, ViewerState>;
+  viewers: Record<string, ViewerState>;
 };
 
+const SESSION_KEY = 'insider-camera:session';
 const SESSION_MAX_AGE_MS = 1000 * 60 * 60 * 6;
 const VIEWER_MAX_AGE_MS = 1000 * 60 * 20;
+const SESSION_TTL_SECONDS = Math.ceil(SESSION_MAX_AGE_MS / 1000);
 
 declare global {
   var insiderCameraSession: CameraSession | undefined;
@@ -33,41 +35,114 @@ function now() {
   return Date.now();
 }
 
-function pruneSession() {
-  const session = globalThis.insiderCameraSession;
+function hasRedisConfig() {
+  return Boolean(process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN);
+}
 
-  if (!session) {
+async function redisCommand<T>(command: unknown[]): Promise<T | null> {
+  const url = process.env.UPSTASH_REDIS_REST_URL;
+  const token = process.env.UPSTASH_REDIS_REST_TOKEN;
+
+  if (!url || !token) {
     return null;
+  }
+
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(command),
+    cache: 'no-store',
+  });
+
+  const data = (await response.json()) as { result?: T; error?: string };
+
+  if (!response.ok || data.error) {
+    throw new Error(data.error || 'Nie udalo sie polaczyc z Redis.');
+  }
+
+  return data.result ?? null;
+}
+
+async function readStoredSession() {
+  if (!hasRedisConfig()) {
+    return globalThis.insiderCameraSession ?? null;
+  }
+
+  const stored = await redisCommand<string>(['GET', SESSION_KEY]);
+  return stored ? (JSON.parse(stored) as CameraSession) : null;
+}
+
+export async function saveSession(session: CameraSession) {
+  if (!hasRedisConfig()) {
+    globalThis.insiderCameraSession = session;
+    return;
+  }
+
+  await redisCommand(['SET', SESSION_KEY, JSON.stringify(session), 'EX', SESSION_TTL_SECONDS]);
+}
+
+export async function deleteSession() {
+  if (!hasRedisConfig()) {
+    globalThis.insiderCameraSession = undefined;
+    return;
+  }
+
+  await redisCommand(['DEL', SESSION_KEY]);
+}
+
+function pruneSession(session: CameraSession | null) {
+  if (!session) {
+    return { session: null, changed: false };
   }
 
   if (now() - session.updatedAt > SESSION_MAX_AGE_MS) {
-    globalThis.insiderCameraSession = undefined;
-    return null;
+    return { session: null, changed: true };
   }
 
-  for (const [viewerId, viewer] of session.viewers) {
-    if (now() - viewer.updatedAt > VIEWER_MAX_AGE_MS) {
-      session.viewers.delete(viewerId);
+  let changed = false;
+
+  for (const viewerId of Object.keys(session.viewers)) {
+    if (now() - session.viewers[viewerId].updatedAt > VIEWER_MAX_AGE_MS) {
+      delete session.viewers[viewerId];
+      changed = true;
+    }
+  }
+
+  return { session, changed };
+}
+
+async function loadSession() {
+  const storedSession = await readStoredSession();
+  const { session, changed } = pruneSession(storedSession);
+
+  if (changed) {
+    if (session) {
+      await saveSession(session);
+    } else {
+      await deleteSession();
     }
   }
 
   return session;
 }
 
-export function getSession() {
-  return pruneSession();
+export async function getSession() {
+  return loadSession();
 }
 
-export function createSession(password: string) {
+export async function createSession(password: string) {
   const session: CameraSession = {
     broadcasterKey: randomUUID(),
     password,
     createdAt: now(),
     updatedAt: now(),
-    viewers: new Map(),
+    viewers: {},
   };
 
-  globalThis.insiderCameraSession = session;
+  await saveSession(session);
   return session;
 }
 
@@ -75,8 +150,8 @@ export function touchSession(session: CameraSession) {
   session.updatedAt = now();
 }
 
-export function createViewer(password: string) {
-  const session = pruneSession();
+export async function createViewer(password: string) {
+  const session = await loadSession();
 
   if (!session || session.password !== password) {
     return null;
@@ -93,15 +168,16 @@ export function createViewer(password: string) {
     updatedAt: now(),
   };
 
-  session.viewers.set(viewer.id, viewer);
+  session.viewers[viewer.id] = viewer;
   touchSession(session);
+  await saveSession(session);
 
   return viewer;
 }
 
-export function getViewer(viewerId: string, viewerKey?: string) {
-  const session = pruneSession();
-  const viewer = session?.viewers.get(viewerId) ?? null;
+export async function getViewer(viewerId: string, viewerKey?: string) {
+  const session = await loadSession();
+  const viewer = session?.viewers[viewerId] ?? null;
 
   if (!session || !viewer) {
     return null;
@@ -114,13 +190,14 @@ export function getViewer(viewerId: string, viewerKey?: string) {
   return { session, viewer };
 }
 
-export function validateBroadcaster(broadcasterKey: string) {
-  const session = pruneSession();
+export async function validateBroadcaster(broadcasterKey: string) {
+  const session = await loadSession();
 
   if (!session || session.broadcasterKey !== broadcasterKey) {
     return null;
   }
 
   touchSession(session);
+  await saveSession(session);
   return session;
 }

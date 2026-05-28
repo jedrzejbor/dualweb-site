@@ -19,11 +19,12 @@ const ICE_SERVERS: RTCConfiguration = {
   iceServers: [{ urls: 'stun:stun.l.google.com:19302' }],
 };
 
-async function apiJson<T>(url: string, init?: RequestInit): Promise<T> {
+async function apiJson<T>(url: string, routeSecret: string, init?: RequestInit): Promise<T> {
   const response = await fetch(url, {
     ...init,
     headers: {
       'Content-Type': 'application/json',
+      'x-insider-camera-route': routeSecret,
       ...init?.headers,
     },
     cache: 'no-store',
@@ -37,7 +38,7 @@ async function apiJson<T>(url: string, init?: RequestInit): Promise<T> {
   return data;
 }
 
-export default function InsiderCameraClient() {
+export default function InsiderCameraClient({ routeSecret }: { routeSecret: string }) {
   const [mode, setMode] = useState<Mode>('viewer');
   const [password, setPassword] = useState('');
   const [status, setStatus] = useState<Status>('idle');
@@ -95,7 +96,7 @@ export default function InsiderCameraClient() {
     broadcasterKeyRef.current = null;
 
     if (broadcasterKey) {
-      await apiJson(SESSION_URL, {
+      await apiJson(SESSION_URL, routeSecret, {
         method: 'DELETE',
         body: JSON.stringify({ broadcasterKey }),
       }).catch(() => null);
@@ -116,6 +117,7 @@ export default function InsiderCameraClient() {
 
     const data = await apiJson<{ viewers: ViewerSignal[] }>(
       `${SIGNAL_URL}?role=broadcaster&broadcasterKey=${encodeURIComponent(broadcasterKey)}`,
+      routeSecret,
     );
 
     setViewerCount(data.viewers.length);
@@ -140,7 +142,7 @@ export default function InsiderCameraClient() {
             return;
           }
 
-          apiJson(SIGNAL_URL, {
+          apiJson(SIGNAL_URL, routeSecret, {
             method: 'POST',
             body: JSON.stringify({
               role: 'broadcaster',
@@ -155,7 +157,7 @@ export default function InsiderCameraClient() {
         const answer = await peer.createAnswer();
         await peer.setLocalDescription(answer);
 
-        await apiJson(SIGNAL_URL, {
+        await apiJson(SIGNAL_URL, routeSecret, {
           method: 'POST',
           body: JSON.stringify({
             role: 'broadcaster',
@@ -203,10 +205,14 @@ export default function InsiderCameraClient() {
         localVideoRef.current.srcObject = stream;
       }
 
-      const session = await apiJson<{ broadcasterKey: string; viewerCount: number }>(SESSION_URL, {
-        method: 'POST',
-        body: JSON.stringify({ password: password.trim() }),
-      });
+      const session = await apiJson<{ broadcasterKey: string; viewerCount: number }>(
+        SESSION_URL,
+        routeSecret,
+        {
+          method: 'POST',
+          body: JSON.stringify({ password: password.trim() }),
+        },
+      );
 
       broadcasterKeyRef.current = session.broadcasterKey;
       setViewerCount(session.viewerCount);
@@ -230,10 +236,14 @@ export default function InsiderCameraClient() {
     setMessage('Laczenie z transmisja.');
 
     try {
-      const auth = await apiJson<{ viewerId: string; viewerKey: string }>(VIEWERS_URL, {
-        method: 'POST',
-        body: JSON.stringify({ password: password.trim() }),
-      });
+      const auth = await apiJson<{ viewerId: string; viewerKey: string }>(
+        VIEWERS_URL,
+        routeSecret,
+        {
+          method: 'POST',
+          body: JSON.stringify({ password: password.trim() }),
+        },
+      );
 
       viewerAuthRef.current = auth;
 
@@ -258,7 +268,7 @@ export default function InsiderCameraClient() {
           return;
         }
 
-        apiJson(SIGNAL_URL, {
+        apiJson(SIGNAL_URL, routeSecret, {
           method: 'POST',
           body: JSON.stringify({
             role: 'viewer',
@@ -271,7 +281,7 @@ export default function InsiderCameraClient() {
       const offer = await peer.createOffer();
       await peer.setLocalDescription(offer);
 
-      await apiJson(SIGNAL_URL, {
+      await apiJson(SIGNAL_URL, routeSecret, {
         method: 'POST',
         body: JSON.stringify({
           role: 'viewer',
@@ -305,7 +315,7 @@ export default function InsiderCameraClient() {
     const data = await apiJson<{
       answer: RTCSessionDescriptionInit | null;
       broadcasterCandidates: RTCIceCandidateInit[];
-    }>(`${SIGNAL_URL}?${params.toString()}`);
+    }>(`${SIGNAL_URL}?${params.toString()}`, routeSecret);
 
     if (data.answer && !peer.currentRemoteDescription) {
       await peer.setRemoteDescription(data.answer);
@@ -321,7 +331,7 @@ export default function InsiderCameraClient() {
   }
 
   useEffect(() => {
-    apiJson<{ active: boolean; viewerCount: number }>(SESSION_URL)
+    apiJson<{ active: boolean; viewerCount: number }>(SESSION_URL, routeSecret)
       .then((data) => {
         setHasActiveSession(data.active);
         setViewerCount(data.viewerCount);
@@ -333,7 +343,7 @@ export default function InsiderCameraClient() {
       closePeerConnections();
       stopTracks();
     };
-  }, []);
+  }, [routeSecret]);
 
   const isBusy = status === 'connecting';
   const isLive = status === 'live';

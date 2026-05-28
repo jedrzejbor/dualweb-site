@@ -1,5 +1,13 @@
 import { NextResponse } from 'next/server';
-import { getSession, getViewer, SignalCandidate, SignalDescription, validateBroadcaster } from '../store';
+import { requireInsiderCameraAccess } from '../access';
+import {
+  getSession,
+  getViewer,
+  saveSession,
+  SignalCandidate,
+  SignalDescription,
+  validateBroadcaster,
+} from '../store';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -15,19 +23,25 @@ type SignalBody = {
 };
 
 export async function GET(request: Request) {
+  const accessError = requireInsiderCameraAccess(request);
+
+  if (accessError) {
+    return accessError;
+  }
+
   const { searchParams } = new URL(request.url);
   const role = searchParams.get('role');
 
   if (role === 'broadcaster') {
     const broadcasterKey = searchParams.get('broadcasterKey');
-    const session = broadcasterKey ? validateBroadcaster(broadcasterKey) : null;
+    const session = broadcasterKey ? await validateBroadcaster(broadcasterKey) : null;
 
     if (!session) {
       return NextResponse.json({ error: 'Brak dostepu.' }, { status: 403 });
     }
 
     return NextResponse.json({
-      viewers: Array.from(session.viewers.values()).map((viewer) => ({
+      viewers: Object.values(session.viewers).map((viewer) => ({
         id: viewer.id,
         offer: viewer.offer,
         viewerCandidates: viewer.viewerCandidates,
@@ -38,7 +52,7 @@ export async function GET(request: Request) {
   if (role === 'viewer') {
     const viewerId = searchParams.get('viewerId');
     const viewerKey = searchParams.get('viewerKey');
-    const result = viewerId && viewerKey ? getViewer(viewerId, viewerKey) : null;
+    const result = viewerId && viewerKey ? await getViewer(viewerId, viewerKey) : null;
 
     if (!result) {
       return NextResponse.json({ error: 'Brak aktywnej transmisji.' }, { status: 404 });
@@ -46,9 +60,10 @@ export async function GET(request: Request) {
 
     result.viewer.updatedAt = Date.now();
     result.session.updatedAt = Date.now();
+    await saveSession(result.session);
 
     return NextResponse.json({
-      active: Boolean(getSession()),
+      active: Boolean(await getSession()),
       answer: result.viewer.answer,
       broadcasterCandidates: result.viewer.broadcasterCandidates,
     });
@@ -58,6 +73,12 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
+  const accessError = requireInsiderCameraAccess(request);
+
+  if (accessError) {
+    return accessError;
+  }
+
   const body = (await request.json().catch(() => null)) as SignalBody | null;
 
   if (!body?.role) {
@@ -66,7 +87,7 @@ export async function POST(request: Request) {
 
   if (body.role === 'viewer') {
     const result =
-      body.viewerId && body.viewerKey ? getViewer(body.viewerId, body.viewerKey) : null;
+      body.viewerId && body.viewerKey ? await getViewer(body.viewerId, body.viewerKey) : null;
 
     if (!result) {
       return NextResponse.json({ error: 'Brak dostepu.' }, { status: 403 });
@@ -82,12 +103,13 @@ export async function POST(request: Request) {
 
     result.viewer.updatedAt = Date.now();
     result.session.updatedAt = Date.now();
+    await saveSession(result.session);
 
     return NextResponse.json({ ok: true });
   }
 
-  const session = body.broadcasterKey ? validateBroadcaster(body.broadcasterKey) : null;
-  const viewer = body.viewerId ? session?.viewers.get(body.viewerId) : null;
+  const session = body.broadcasterKey ? await validateBroadcaster(body.broadcasterKey) : null;
+  const viewer = body.viewerId ? session?.viewers[body.viewerId] : null;
 
   if (!session || !viewer) {
     return NextResponse.json({ error: 'Brak dostepu.' }, { status: 403 });
@@ -103,6 +125,7 @@ export async function POST(request: Request) {
 
   viewer.updatedAt = Date.now();
   session.updatedAt = Date.now();
+  await saveSession(session);
 
   return NextResponse.json({ ok: true });
 }
