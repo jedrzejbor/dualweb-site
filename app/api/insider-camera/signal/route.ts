@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
+import { redisErrorResponse } from '../errors';
 import {
-  getSession,
   getViewer,
   saveSession,
   SignalCandidate,
@@ -27,7 +27,13 @@ export async function GET(request: Request) {
 
   if (role === 'broadcaster') {
     const broadcasterKey = searchParams.get('broadcasterKey');
-    const session = broadcasterKey ? await validateBroadcaster(broadcasterKey) : null;
+    let session;
+
+    try {
+      session = broadcasterKey ? await validateBroadcaster(broadcasterKey) : null;
+    } catch (error) {
+      return redisErrorResponse(error);
+    }
 
     if (!session) {
       return NextResponse.json({ error: 'Brak dostepu.' }, { status: 403 });
@@ -45,7 +51,13 @@ export async function GET(request: Request) {
   if (role === 'viewer') {
     const viewerId = searchParams.get('viewerId');
     const viewerKey = searchParams.get('viewerKey');
-    const result = viewerId && viewerKey ? await getViewer(viewerId, viewerKey) : null;
+    let result;
+
+    try {
+      result = viewerId && viewerKey ? await getViewer(viewerId, viewerKey) : null;
+    } catch (error) {
+      return redisErrorResponse(error);
+    }
 
     if (!result) {
       return NextResponse.json({ error: 'Brak aktywnej transmisji.' }, { status: 404 });
@@ -53,10 +65,15 @@ export async function GET(request: Request) {
 
     result.viewer.updatedAt = Date.now();
     result.session.updatedAt = Date.now();
-    await saveSession(result.session);
+
+    try {
+      await saveSession(result.session);
+    } catch (error) {
+      return redisErrorResponse(error);
+    }
 
     return NextResponse.json({
-      active: Boolean(await getSession()),
+      active: true,
       answer: result.viewer.answer,
       broadcasterCandidates: result.viewer.broadcasterCandidates,
     });
@@ -73,8 +90,13 @@ export async function POST(request: Request) {
   }
 
   if (body.role === 'viewer') {
-    const result =
-      body.viewerId && body.viewerKey ? await getViewer(body.viewerId, body.viewerKey) : null;
+    let result;
+
+    try {
+      result = body.viewerId && body.viewerKey ? await getViewer(body.viewerId, body.viewerKey) : null;
+    } catch (error) {
+      return redisErrorResponse(error);
+    }
 
     if (!result) {
       return NextResponse.json({ error: 'Brak dostepu.' }, { status: 403 });
@@ -90,12 +112,24 @@ export async function POST(request: Request) {
 
     result.viewer.updatedAt = Date.now();
     result.session.updatedAt = Date.now();
-    await saveSession(result.session);
+
+    try {
+      await saveSession(result.session);
+    } catch (error) {
+      return redisErrorResponse(error);
+    }
 
     return NextResponse.json({ ok: true });
   }
 
-  const session = body.broadcasterKey ? await validateBroadcaster(body.broadcasterKey) : null;
+  let session;
+
+  try {
+    session = body.broadcasterKey ? await validateBroadcaster(body.broadcasterKey) : null;
+  } catch (error) {
+    return redisErrorResponse(error);
+  }
+
   const viewer = body.viewerId ? session?.viewers[body.viewerId] : null;
 
   if (!session || !viewer) {
@@ -112,7 +146,12 @@ export async function POST(request: Request) {
 
   viewer.updatedAt = Date.now();
   session.updatedAt = Date.now();
-  await saveSession(session);
+
+  try {
+    await saveSession(session);
+  } catch (error) {
+    return redisErrorResponse(error);
+  }
 
   return NextResponse.json({ ok: true });
 }

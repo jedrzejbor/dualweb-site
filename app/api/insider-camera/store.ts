@@ -38,6 +38,14 @@ function hasRedisConfig() {
   return Boolean(process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN);
 }
 
+export function getRedisConfigStatus() {
+  return {
+    hasUrl: Boolean(process.env.UPSTASH_REDIS_REST_URL),
+    hasToken: Boolean(process.env.UPSTASH_REDIS_REST_TOKEN),
+    enabled: hasRedisConfig(),
+  };
+}
+
 async function redisCommand<T>(command: unknown[]): Promise<T | null> {
   const url = process.env.UPSTASH_REDIS_REST_URL;
   const token = process.env.UPSTASH_REDIS_REST_TOKEN;
@@ -46,23 +54,34 @@ async function redisCommand<T>(command: unknown[]): Promise<T | null> {
     return null;
   }
 
-  const response = await fetch(url, {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(command),
-    cache: 'no-store',
-  });
+  let response: Response;
 
-  const data = (await response.json()) as { result?: T; error?: string };
-
-  if (!response.ok || data.error) {
-    throw new Error(data.error || 'Nie udalo sie polaczyc z Redis.');
+  try {
+    response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(command),
+      cache: 'no-store',
+    });
+  } catch {
+    throw new Error(
+      'Nie udalo sie polaczyc z Upstash Redis. Sprawdz, czy UPSTASH_REDIS_REST_URL jest adresem HTTPS z sekcji REST API.',
+    );
   }
 
-  return data.result ?? null;
+  const data = (await response.json().catch(() => null)) as {
+    result?: T;
+    error?: string;
+  } | null;
+
+  if (!response.ok || data?.error) {
+    throw new Error(data?.error || `Upstash Redis zwrocil status ${response.status}.`);
+  }
+
+  return data?.result ?? null;
 }
 
 async function readStoredSession() {

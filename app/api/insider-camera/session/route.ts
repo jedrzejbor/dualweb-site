@@ -1,11 +1,18 @@
 import { NextResponse } from 'next/server';
+import { redisErrorResponse } from '../errors';
 import { createSession, deleteSession, getSession, validateBroadcaster } from '../store';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
 
 export async function GET() {
-  const session = await getSession();
+  let session;
+
+  try {
+    session = await getSession();
+  } catch (error) {
+    return redisErrorResponse(error);
+  }
 
   return NextResponse.json({
     active: Boolean(session),
@@ -14,7 +21,13 @@ export async function GET() {
 }
 
 export async function POST() {
-  const session = await createSession();
+  let session;
+
+  try {
+    session = await createSession();
+  } catch (error) {
+    return redisErrorResponse(error);
+  }
 
   return NextResponse.json({
     broadcasterKey: session.broadcasterKey,
@@ -25,12 +38,23 @@ export async function POST() {
 export async function DELETE(request: Request) {
   const body = (await request.json().catch(() => null)) as { broadcasterKey?: string } | null;
   const broadcasterKey = body?.broadcasterKey;
+  let isValidBroadcaster = false;
 
-  if (!broadcasterKey || !(await validateBroadcaster(broadcasterKey))) {
+  try {
+    isValidBroadcaster = Boolean(broadcasterKey && (await validateBroadcaster(broadcasterKey)));
+  } catch (error) {
+    return redisErrorResponse(error);
+  }
+
+  if (!isValidBroadcaster) {
     return NextResponse.json({ error: 'Brak dostepu.' }, { status: 403 });
   }
 
-  await deleteSession();
+  try {
+    await deleteSession();
+  } catch (error) {
+    return redisErrorResponse(error);
+  }
 
   return NextResponse.json({ ok: true });
 }
