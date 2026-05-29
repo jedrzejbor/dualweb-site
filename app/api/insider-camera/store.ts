@@ -16,7 +16,6 @@ export type ViewerState = {
 
 export type CameraSession = {
   broadcasterKey: string;
-  password: string;
   createdAt: number;
   updatedAt: number;
   viewers: Record<string, ViewerState>;
@@ -133,10 +132,9 @@ export async function getSession() {
   return loadSession();
 }
 
-export async function createSession(password: string) {
+export async function createSession() {
   const session: CameraSession = {
     broadcasterKey: randomUUID(),
-    password,
     createdAt: now(),
     updatedAt: now(),
     viewers: {},
@@ -150,10 +148,10 @@ export function touchSession(session: CameraSession) {
   session.updatedAt = now();
 }
 
-export async function createViewer(password: string) {
+export async function createViewer() {
   const session = await loadSession();
 
-  if (!session || session.password !== password) {
+  if (!session) {
     return null;
   }
 

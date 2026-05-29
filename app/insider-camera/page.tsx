@@ -1,4 +1,4 @@
-import { notFound } from 'next/navigation';
+import InsiderCameraClient from './InsiderCameraClient';
 
 export const metadata = {
   title: 'Prywatny podglad kamery | Dualweb',
@@ -9,5 +9,5 @@ export const metadata = {
 };
 
 export default function InsiderCameraPage() {
-  notFound();
+  return <InsiderCameraClient />;
 }

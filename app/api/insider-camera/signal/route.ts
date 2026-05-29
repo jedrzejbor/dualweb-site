@@ -1,5 +1,4 @@
 import { NextResponse } from 'next/server';
-import { requireInsiderCameraAccess } from '../access';
 import {
   getSession,
   getViewer,
@@ -23,12 +22,6 @@ type SignalBody = {
 };
 
 export async function GET(request: Request) {
-  const accessError = requireInsiderCameraAccess(request);
-
-  if (accessError) {
-    return accessError;
-  }
-
   const { searchParams } = new URL(request.url);
   const role = searchParams.get('role');
 
@@ -73,12 +66,6 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
-  const accessError = requireInsiderCameraAccess(request);
-
-  if (accessError) {
-    return accessError;
-  }
-
   const body = (await request.json().catch(() => null)) as SignalBody | null;
 
   if (!body?.role) {

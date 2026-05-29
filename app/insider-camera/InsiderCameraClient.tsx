@@ -1,6 +1,6 @@
 'use client';
 
-import { Camera, Eye, Lock, MonitorStop, Radio, Users } from 'lucide-react';
+import { Camera, Eye, MonitorStop, Radio, Users } from 'lucide-react';
 import { FormEvent, useEffect, useRef, useState } from 'react';
 
 type Mode = 'viewer' | 'broadcaster';
@@ -19,12 +19,11 @@ const ICE_SERVERS: RTCConfiguration = {
   iceServers: [{ urls: 'stun:stun.l.google.com:19302' }],
 };
 
-async function apiJson<T>(url: string, routeSecret: string, init?: RequestInit): Promise<T> {
+async function apiJson<T>(url: string, init?: RequestInit): Promise<T> {
   const response = await fetch(url, {
     ...init,
     headers: {
       'Content-Type': 'application/json',
-      'x-insider-camera-route': routeSecret,
       ...init?.headers,
     },
     cache: 'no-store',
@@ -38,9 +37,8 @@ async function apiJson<T>(url: string, routeSecret: string, init?: RequestInit):
   return data;
 }
 
-export default function InsiderCameraClient({ routeSecret }: { routeSecret: string }) {
+export default function InsiderCameraClient() {
   const [mode, setMode] = useState<Mode>('viewer');
-  const [password, setPassword] = useState('');
   const [status, setStatus] = useState<Status>('idle');
   const [message, setMessage] = useState('Oczekiwanie na transmisje.');
   const [viewerCount, setViewerCount] = useState(0);
@@ -96,7 +94,7 @@ export default function InsiderCameraClient({ routeSecret }: { routeSecret: stri
     broadcasterKeyRef.current = null;
 
     if (broadcasterKey) {
-      await apiJson(SESSION_URL, routeSecret, {
+      await apiJson(SESSION_URL, {
         method: 'DELETE',
         body: JSON.stringify({ broadcasterKey }),
       }).catch(() => null);
@@ -117,7 +115,6 @@ export default function InsiderCameraClient({ routeSecret }: { routeSecret: stri
 
     const data = await apiJson<{ viewers: ViewerSignal[] }>(
       `${SIGNAL_URL}?role=broadcaster&broadcasterKey=${encodeURIComponent(broadcasterKey)}`,
-      routeSecret,
     );
 
     setViewerCount(data.viewers.length);
@@ -142,7 +139,7 @@ export default function InsiderCameraClient({ routeSecret }: { routeSecret: stri
             return;
           }
 
-          apiJson(SIGNAL_URL, routeSecret, {
+          apiJson(SIGNAL_URL, {
             method: 'POST',
             body: JSON.stringify({
               role: 'broadcaster',
@@ -157,7 +154,7 @@ export default function InsiderCameraClient({ routeSecret }: { routeSecret: stri
         const answer = await peer.createAnswer();
         await peer.setLocalDescription(answer);
 
-        await apiJson(SIGNAL_URL, routeSecret, {
+        await apiJson(SIGNAL_URL, {
           method: 'POST',
           body: JSON.stringify({
             role: 'broadcaster',
@@ -182,11 +179,6 @@ export default function InsiderCameraClient({ routeSecret }: { routeSecret: stri
   async function startBroadcast(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    if (password.trim().length < 4) {
-      setError(new Error('Haslo musi miec przynajmniej 4 znaki.'));
-      return;
-    }
-
     clearPoll();
     closePeerConnections();
     stopTracks();
@@ -207,17 +199,13 @@ export default function InsiderCameraClient({ routeSecret }: { routeSecret: stri
 
       const session = await apiJson<{ broadcasterKey: string; viewerCount: number }>(
         SESSION_URL,
-        routeSecret,
-        {
-          method: 'POST',
-          body: JSON.stringify({ password: password.trim() }),
-        },
+        { method: 'POST' },
       );
 
       broadcasterKeyRef.current = session.broadcasterKey;
       setViewerCount(session.viewerCount);
       setStatus('live');
-      setMessage('Transmisja aktywna. Widzowie moga wejsc po hasle.');
+      setMessage('Transmisja aktywna. Widzowie moga wejsc na te sama podstrone.');
 
       pollRef.current = setInterval(() => {
         pollBroadcaster().catch(setError);
@@ -238,11 +226,7 @@ export default function InsiderCameraClient({ routeSecret }: { routeSecret: stri
     try {
       const auth = await apiJson<{ viewerId: string; viewerKey: string }>(
         VIEWERS_URL,
-        routeSecret,
-        {
-          method: 'POST',
-          body: JSON.stringify({ password: password.trim() }),
-        },
+        { method: 'POST' },
       );
 
       viewerAuthRef.current = auth;
@@ -268,7 +252,7 @@ export default function InsiderCameraClient({ routeSecret }: { routeSecret: stri
           return;
         }
 
-        apiJson(SIGNAL_URL, routeSecret, {
+        apiJson(SIGNAL_URL, {
           method: 'POST',
           body: JSON.stringify({
             role: 'viewer',
@@ -281,7 +265,7 @@ export default function InsiderCameraClient({ routeSecret }: { routeSecret: stri
       const offer = await peer.createOffer();
       await peer.setLocalDescription(offer);
 
-      await apiJson(SIGNAL_URL, routeSecret, {
+      await apiJson(SIGNAL_URL, {
         method: 'POST',
         body: JSON.stringify({
           role: 'viewer',
@@ -315,7 +299,7 @@ export default function InsiderCameraClient({ routeSecret }: { routeSecret: stri
     const data = await apiJson<{
       answer: RTCSessionDescriptionInit | null;
       broadcasterCandidates: RTCIceCandidateInit[];
-    }>(`${SIGNAL_URL}?${params.toString()}`, routeSecret);
+    }>(`${SIGNAL_URL}?${params.toString()}`);
 
     if (data.answer && !peer.currentRemoteDescription) {
       await peer.setRemoteDescription(data.answer);
@@ -331,7 +315,7 @@ export default function InsiderCameraClient({ routeSecret }: { routeSecret: stri
   }
 
   useEffect(() => {
-    apiJson<{ active: boolean; viewerCount: number }>(SESSION_URL, routeSecret)
+    apiJson<{ active: boolean; viewerCount: number }>(SESSION_URL)
       .then((data) => {
         setHasActiveSession(data.active);
         setViewerCount(data.viewerCount);
@@ -343,7 +327,7 @@ export default function InsiderCameraClient({ routeSecret }: { routeSecret: stri
       closePeerConnections();
       stopTracks();
     };
-  }, [routeSecret]);
+  }, []);
 
   const isBusy = status === 'connecting';
   const isLive = status === 'live';
@@ -396,22 +380,6 @@ export default function InsiderCameraClient({ routeSecret }: { routeSecret: stri
               className="mt-5 space-y-4"
               onSubmit={mode === 'broadcaster' ? startBroadcast : joinAsViewer}
             >
-              <label className="block text-sm font-medium text-slate-200" htmlFor="camera-password">
-                Haslo dostepu
-              </label>
-              <div className="flex items-center gap-2 rounded-lg border border-white/10 bg-black/30 px-3 py-2 focus-within:border-cyan-300">
-                <Lock className="h-4 w-4 text-slate-500" />
-                <input
-                  id="camera-password"
-                  type="password"
-                  value={password}
-                  onChange={(event) => setPassword(event.target.value)}
-                  placeholder={mode === 'broadcaster' ? 'Ustaw haslo' : 'Podaj haslo'}
-                  className="min-w-0 flex-1 bg-transparent text-sm text-white outline-none placeholder:text-slate-600"
-                  autoComplete="off"
-                />
-              </div>
-
               <button
                 type="submit"
                 disabled={isBusy || (mode === 'broadcaster' && isLive)}
